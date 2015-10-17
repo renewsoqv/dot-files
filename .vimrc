@@ -9,37 +9,70 @@ call plug#begin('~/.vim/plugged')
 
 " Essentials
 Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " NERD tree will be loaded on the first invocation of NERDTreeToggle command
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " NERD tree will be  loaded on the first invocation of NERDTreeToggle command
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the 'gutter' (sign column) 
-Plug 'scrooloose/syntastic' " Check for code error, amazing!
-Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
-Plug 'sjl/gundo.vim' " Gundo.vim is Vim plugin to visualize your Vim undo tree.
-Plug 'tpope/vim-fugitive' " GIT
+ Plug 'scrooloose/syntastic' " Check for code error, amazing!
+ Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
+ Plug 'sjl/gundo.vim' " Gundo.vim is Vim plugin to visualize your Vim undo tree.
+ Plug 'tpope/vim-fugitive' " GIT
+ Plug 'majutsushi/tagbar' "browse the tags of the current file and get an overview of its structure.
+ Plug 'tpope/vim-sensible' " a universal set of defaults that (hopefully)  everyone can agree on.
+ Plug 'ervandew/supertab' " Supertab is a vim plugin which allows you to use  <Tab> for all your insert completion needs (:help ins-completion).
+ Plug 'bling/vim-airline' "Lean & mean status/tabline for vim that's light as air.
+ Plug 'bling/vim-bufferline' "Super simple vim plugin to show the list of buffers in the command bar.
+ Plug 'terryma/vim-multiple-cursors' " Sublime Text's awesome multiple selection feature into Vim
+ Plug 'tpope/vim-projectionist' " Projectionist provides granular project configuration using 'projections' 
+ Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more.
+ Plug 'Valloric/YouCompleteMe' "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
+" Plug 'szw/vim-ctrlspace' "Search
 
-" Utilities
-Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
-Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
-Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "Browse GitHub events (user dashboard, user/repo activity) in Vim.
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a general-purpose command-line fuzzy finder.
-Plug 'bling/vim-airline' "Lean & mean status/tabline for vim that's light as air.
-Plug 'bling/vim-bufferline' "Super simple vim plugin to show the list of buffers in the command bar.
+ " Utilities
+ Plug 'tpope/vim-commentary' "Comment stuff out. 
+ Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
+ Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
+ Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "Browse GitHub events (user dashboard, user/repo activity) in Vim.
+ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a general-purpose command-line fuzzy finder.
+ Plug 'wakatime/vim-wakatime' "Vim plugin to quantify your coding with  automatic time tracking and metrics about your programming.
+ Plug 'mattn/webapi-vim' " An Interface to WEB APIs.
 
-" Leverage the power of Vim's compiler plugins without being bound by synchronicity. Kick off builds and test suites using one of several asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless mode), and when the job completes, errors will be loaded and parsed automatically.
-Plug 'tpope/vim-dispatch' 
+" Leverage the power of Vim's compiler plugins without being bound by  synchronicity. Kick off builds and test suites using one of several
+" asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless  mode), and when the job completes, errors will be loaded and parsed
+" automatically.
+ Plug 'tpope/vim-dispatch' 
 
-" Asthetics
-Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to depth
+ " Asthetics
+Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to  depth
 
-" Languages
-Plug 'junegunn/vim-journal' " syntax plugin for plain text files.
-Plug 'kurko/smartest.vim' "Make your Vim smart when running your tests.
-Plug 'bling/vim-airline' "Lean & mean status/tabline for vim that's light as air.
+ " Languages
+ Plug 'kchmck/vim-coffee-script'
+ Plug 'junegunn/vim-journal' " syntax plugin for plain text files.
+ Plug 'kurko/smartest.vim' "Make your Vim smart when running your tests.
+ Plug 'burnettk/vim-angular'
+ Plug 'matthewsimo/angular-vim-snippets'
+ Plug 'pangloss/vim-javascript'
+ Plug 'othree/javascript-libraries-syntax.vim'
+ Plug 'tpope/vim-endwise' 
+ Plug 'slim-template/vim-slim'
+ Plug 'rstacruz/sparkup', {'rtp': 'vim/'} " Sparkup lets you write HTML code faster
+ Plug 'tpope/vim-bundler' " This is a lightweight bag of Vim goodies for Bundler
+ Plug 'tpope/vim-rake' 
+ Plug 'tpope/vim-rails'
+ Plug 'tpope/vim-rbenv'
+ Plug 'tpope/vim-markdown' " sintax highlight for markdown
+ Plug 'skalnik/vim-vroom' "Run your Ruby tests! Supports RSpec, Test::Unit/MiniTest, Konacha, and Cucumber.
 
-" Color Schemes
-Plug 'junegunn/seoul256.vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'chriskempson/base16-vim'
+
+ " Group dependencies, vim-snippets depends on ultisnips
+ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+ Plug 'tomtom/tlib_vim'
+ Plug 'MarcWeber/vim-addon-mw-utils' | Plug 'garbas/vim-snipmate'
+
+ " Color Schemes
+ Plug 'junegunn/seoul256.vim'
+ Plug 'altercation/vim-colors-solarized'
+ Plug 'chriskempson/base16-vim'
 Plug 'tomasr/molokai'
+Plug '/jpo/vim-railscasts-theme'
 
 " End plugin management
 " ===============================
