@@ -1,3 +1,20 @@
+" Start plugin management
+" ===============================
+call plug#begin('~/.vim/plugged')
+
+" Essentials
+Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
+
+" Utilities
+Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
+
+" Asthetics
+Plug 'junegunn/rainbow_parentheses.vim'
+
+" End plugin management
+" ===============================
+call plug#end()
+
 " remove lixos de compatibilidade com o VI
 set nocompatible
 set modelines=0
@@ -124,14 +141,14 @@ nnoremap <silent> <Leader>t :CommandT<CR>
 nnoremap <silent> <Leader>b :CommandTBuffer<CR>
 
 " Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 " NERdTree
 autocmd StdinReadPre * let s:std_in=1
