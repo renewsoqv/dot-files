@@ -15,7 +15,8 @@ if [ ! -e ~/.git-prompt.sh ]; then
   wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -O ~/.git-prompt.sh
 fi
 
-if [ $(uname -s) = 'Darwin' ]; then
+# Setup for MACOS
+if [ "$(uname -s)" == "Darwin" ]; then
   # Homebrew
   [ -z "$(which brew)" ] &&
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -29,9 +30,20 @@ if [ $(uname -s) = 'Darwin' ]; then
     sl tmux tree unrar vim wget zsh jq
   brew install macvim
   brew install rbenv ruby-build
+  echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+
+# Setup for LINUX
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+  echo "setup rbenv"
+  git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+  echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+# Setup for WINDOWS
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+   echo 'not configured yet :('
 fi
-echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-echo 'eval "$(rbenv init -)"' >> ~/.zshrc
 
 git config --global user.email "renews@gmail.com"
 git config --global user.name "Renê Schneider"
