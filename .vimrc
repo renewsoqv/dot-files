@@ -1,6 +1,8 @@
 if has("win32")
   let &runtimepath = substitute(&runtimepath,'\(Documents and Settings\|Users\)[\\/][^\\/,]*[\\/]\zsvimfiles\>','.vim','g')
 endif
+
+" ==============================
 " Start plugin management
 " ===============================
 call plug#begin('~/.vim/plugged')
@@ -55,7 +57,7 @@ filetype on " Automatically detect file typess.
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set expandtab
+set expandtab " tabs are converted to spaces, use only when required
 
 " basic config
 set history=256  " Number of things to remember in history
@@ -64,7 +66,7 @@ set guifont=Menlo:h14
 set encoding=utf-8
 set scrolloff=3
 set undofile
-
+set sm             " show matching braces, somewhat annoying...
 " When opening a new line and no filetype-specific indenting is enabled, keep
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
@@ -126,6 +128,8 @@ set textwidth=79
 set splitbelow
 set splitright
 
+au FocusLost * :wa "save on focus lost
+
 " If on GUI and not on terminal
 if !has("gui_running") && $DISPLAY == '' || !has("gui")
   set mouse= " show mouse cursor
@@ -157,17 +161,31 @@ if has('eval')
 endif
 
 
-
+" ===========
 " KEYBINDINGS
 " ===========
+
+" F1 ~ f12
+map <F1> :previous<CR>  " map F1 to open previous buffer
+map <F2> :next<CR>      " map F2 to open next buffer
+map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
+nmap <F4> :Helptags<CR>
+nmap <F8> :TagbarToggle<CR>
+
+" special char's 
+map ,v :sp ~/.vimrc<cr> " edit my .vimrc file in a split
+map ,e :e ~/.vimrc<cr>      " edit my .vimrc file
+map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
 nnoremap / /\v
 vnoremap / /\v
-"inoremap <F1> <ESC>
-"nnoremap <F1> <ESC>
-"vnoremap <F1> <ESC>
-nnoremap <leader>s :set spell!
 vnoremap . :norm.<CR>
 
+" preventing annoying error's
+cmap W w
+cmap Q q
+cmap Wq wq
+
+nnoremap <leader>s :set spell!
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,  which is the default
 map Y y$
 map <C-e> :NERDTreeToggle<CR>
@@ -175,19 +193,39 @@ map <Left> :tabp<CR>
 map <Right> :tabn<CR>
 map <Up> :tabe
 
-" get the word under the cursor, and searches for it in the current directory
-" and all subdirectories, opening the quickfix window when done
-map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
-
-nmap <F8> :TagbarToggle<CR>
-nmap <F1> :Helptags<CR>
-
 " Use <F11> to toggle between 'paste' and 'nopaste'
 " set pastetoggle=<F11>
+" Keyboard mapping for numeric keypad
+imap <Esc>OM <c-m>
+ map <Esc>OM <c-m>
+imap <Esc>OP <nop>
+ map <Esc>OP <nop>
+imap <Esc>OQ /
+ map <Esc>OQ /
+imap <Esc>OR *
+ map <Esc>OR *
+imap <Esc>OS -
+ map <Esc>OS -
 
-au FocusLost * :wa "save on focus lost
+imap <Esc>Ol +
+imap <Esc>Om -
+imap <Esc>On ,
+imap <Esc>Op 0
+imap <Esc>Oq 1
+imap <Esc>Or 2
+imap <Esc>Os 3
+imap <Esc>Ot 4
+imap <Esc>Ou 5
+imap <Esc>Ov 6
+imap <Esc>Ow 7
+imap <Esc>Ox 8
+imap <Esc>Oy 9
+imap <Esc>Oz 0
 
+" ==========
 " Aesthetics
+" ==========
+
 "colorscheme railscasts
 "colorscheme solarized 
 set background=dark
@@ -287,12 +325,18 @@ let g:javascript_conceal_super      = "Ω"
 "let g:gitgutter_enabled = 0 "To turn off vim-gitgutter by default
 "let g:gitgutter_signs = 0 "To turn off signs by default
 "let g:gitgutter_highlight_lines = 1 "To turn on line highlighting by default
+
+  " LANGUAGES
+  " =========
 if has("autocmd")
+  " Filetypes (au = autocmd)
+  au FileType helpfile set nonumber      " no line numbers when viewing help
+  au FileType helpfile nnoremap <buffer><cr> <c-]> " Enter selects subject
+  au FileType helpfile nnoremap <buffer><bs> <c-T> " Backspace to go back
+  
   ""Markdow
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
   
-  " LANGUAGES
-  " =========
   autocmd FileType sh,zsh,csh,tcsh        inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
   autocmd FileType sh,zsh,csh,tcsh        let &l:path = substitute($PATH, ':', ',', 'g')
   autocmd FileType perl,python,ruby       inoremap <silent> <buffer> <C-X>! #!/usr/bin/env<Space><C-R>=&ft<CR>
