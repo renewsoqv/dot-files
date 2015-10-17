@@ -9,7 +9,10 @@ Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
 Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
 
 " Asthetics
-Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to depth
+
+" Languages
+Plug 'junegunn/vim-journal' " syntax plugin for plain text files.
 
 " End plugin management
 " ===============================
