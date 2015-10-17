@@ -40,6 +40,9 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
   echo 'eval "$(rbenv init -)"' >> ~/.bashrc
   echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+  echo "setup ruby-build"
+  git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+  
 # Setup for WINDOWS
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
    echo 'not configured yet :('
