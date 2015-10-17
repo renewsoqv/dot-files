@@ -27,7 +27,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
     ag ant cmus coreutils cscope ctags \
     fish git gnuplot graphviz imagemagick \
     maven memcached mysql redis \
-    sl tmux tree unrar vim wget zsh jq
+    sl tmux reattach-to-user-namespace tree unrar vim wget zsh jq
   brew install macvim
   brew install rbenv ruby-build
   echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
@@ -62,6 +62,7 @@ mkdir -p ~/.vim/plugin
 mkdir -p ~/.vim/tmp/backups
 curl --insecure -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim
 curl --insecure -fLo ~/.vim/plugin/Rename.vim  http://www.vim.org/scripts/download_script.php?src_id=16331 # vim plugin renamer :saveas
+
 # vimrc
 mv -v ~/.vimrc ~/.vimrc.old 2> /dev/null
 ln -sf $BASE/vimrc ~/.vimrc
