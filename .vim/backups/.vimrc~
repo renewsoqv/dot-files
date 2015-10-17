@@ -23,7 +23,7 @@ Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the 'gutt
  Plug 'terryma/vim-multiple-cursors' " Sublime Text's awesome multiple selection feature into Vim
  Plug 'tpope/vim-projectionist' " Projectionist provides granular project configuration using 'projections' 
  Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more.
- Plug 'Valloric/YouCompleteMe' "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
+ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
 " Plug 'szw/vim-ctrlspace' "Search
 
  " Utilities
