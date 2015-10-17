@@ -1,6 +1,8 @@
 if has("win32")
   let &runtimepath = substitute(&runtimepath,'\(Documents and Settings\|Users\)[\\/][^\\/,]*[\\/]\zsvimfiles\>','.vim','g')
 endif
+
+" ==============================
 " Start plugin management
 " ===============================
 call plug#begin('~/.vim/plugged')
@@ -8,18 +10,27 @@ call plug#begin('~/.vim/plugged')
 " Essentials
 Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " NERD tree will be loaded on the first invocation of NERDTreeToggle command
-
+Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the 'gutter' (sign column) 
+Plug 'scrooloose/syntastic' " Check for code error, amazing!
+Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
 " Utilities
 Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
 Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
 Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "Browse GitHub events (user dashboard, user/repo activity) in Vim.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a general-purpose command-line fuzzy finder.
+Plug 'bling/vim-airline' "Lean & mean status/tabline for vim that's light as air.
+Plug 'bling/vim-bufferline' "Super simple vim plugin to show the list of buffers in the command bar.
+
+" Leverage the power of Vim's compiler plugins without being bound by synchronicity. Kick off builds and test suites using one of several asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless mode), and when the job completes, errors will be loaded and parsed automatically.
+Plug 'tpope/vim-dispatch' 
 
 " Asthetics
 Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to depth
 
 " Languages
 Plug 'junegunn/vim-journal' " syntax plugin for plain text files.
+Plug 'kurko/smartest.vim' "Make your Vim smart when running your tests.
+Plug 'bling/vim-airline' "Lean & mean status/tabline for vim that's light as air.
 
 " Color Schemes
 Plug 'junegunn/seoul256.vim'
@@ -281,18 +292,32 @@ nnoremap <silent> <Leader>t :CommandT<CR>
 nnoremap <silent> <Leader>b :CommandTBuffer<CR>
 
 " Syntastic
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
-" NERdTree
+" NERdTree - Open it automatically if no files specified.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Style for NerdTree git plugin
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
 
 " Javascript Libraries - https://github.com/othree/javascript-libraries-syntax.vim
 "let g:used_javascript_libs = 'underscore,angularjs,angularui,angularuirouter'
