@@ -25,7 +25,7 @@ Plug 'tpope/vim-projectionist' " Projectionist provides granular project configu
 Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more.
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
 " Plug 'szw/vim-ctrlspace' "Search
-Plug 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim' "Amazing search plugin
 
  " Utilities
 Plug 'tpope/vim-commentary' "Comment stuff out. 
@@ -90,8 +90,6 @@ filetype indent plugin on
    
 " Enable syntax highlighting
 syntax on
-
-
 
 set modelines=0
 
@@ -323,13 +321,29 @@ nnoremap <leader>h :set ft=HTML<CR><CR>
 
 """""""" Backups & Files
 set backup                     " Enable creation of backup file.
-set backupdir=~/.vim/backups " Where backups will go.
+set backupdir=~/.vim/tmp/backups " Where backups will go.
 set directory=~/.vim/tmp     " Where temporary files will go.
 
 """"""" Plugins configuration
-" Command-T - https://github.com/wincent/Command-T
-nnoremap <silent> <Leader>t :CommandT<CR>
-nnoremap <silent> <Leader>b :CommandTBuffer<CR>
+"CTRl-P search plugin
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+"Exclude files and directories using Vim's wildignore and CtrlP's own
+"g:ctrlp_custom_ignore
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+"let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+"Use a custom file listing command:
+let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
 
 " Syntastic
 set statusline+=%#warningmsg#
