@@ -4,9 +4,13 @@ call plug#begin('~/.vim/plugged')
 
 " Essentials
 Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " NERD tree will be loaded on the first invocation of NERDTreeToggle command
 
 " Utilities
 Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
+Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
+Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "Browse GitHub events (user dashboard, user/repo activity) in Vim.
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a general-purpose command-line fuzzy finder.
 
 " Asthetics
 Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to depth
@@ -14,12 +18,27 @@ Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to depth
 " Languages
 Plug 'junegunn/vim-journal' " syntax plugin for plain text files.
 
+" Color Schemes
+Plug 'junegunn/seoul256.vim'
+
 " End plugin management
 " ===============================
 call plug#end()
 
-" remove lixos de compatibilidade com o VI
+" Set 'nocompatible' to ward off unexpected things that your distro might
+" have made, as well as sanely reset options when re-sourcing .vimrc
 set nocompatible
+  
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+filetype indent plugin on
+   
+" Enable syntax highlighting
+syntax on
+
+
+
 set modelines=0
 
 " mapeia saida para o visual mode para as teclas j+k
@@ -36,33 +55,61 @@ set softtabstop=2
 set expandtab
 
 " basic config
-filetype plugin indent on
-syntax on
 set history=256  " Number of things to remember in history
 set shell=/bin/zsh
 set guifont=Menlo:h14
 set encoding=utf-8
 set scrolloff=3
-set autoindent
-set showmode
-set showcmd
-set hidden
-set wildmenu
-set wildmode=list:longest
-set visualbell
-set ttyfast
-set ruler
-set backspace=indent,eol,start
-set laststatus=2
-set number
-"set relativenumber
 set undofile
+
+" When opening a new line and no filetype-specific indenting is enabled, keep
+" the same indent as the line you're currently on. Useful for READMEs, etc.
+set autoindent
+
+" Stop certain movements from always going to the first character of a line.
+" While this behaviour deviates from that of Vi, it does what most users
+" coming from other editors would expect.
+" set nostartofline
+
+set showmode
+set showcmd " Show partial commands in the last line of the screen
+set hidden " window and switch from an unsaved buffer without saving it first
+set wildmenu " Better command-line completion
+set wildmode=list:longest
+set visualbell " Use visual bell instead of beeping when doing something wrong
+
+" And reset the terminal code for the visual bell. If visualbell is set, and
+" this line is also included, vim will neither flash nor beep. If visualbell
+" is unset, this does nothing.
+" set t_vb=
+
+" Set the command window height to 2 lines, to avoid many cases of having to
+" press <Enter> to continue"
+set cmdheight=2
+
+set ttyfast
+set ruler " Display the cursor position on the last line of the screen or in the status line of a window
+set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
+set laststatus=2 " Always display the status line, even if only one window is displayed
+set number " Display line numbers on the left
+"set relativenumber
+set notimeout ttimeout ttimeoutlen=200 " Quickly time out on keycodes, but never time out on mappings
+
+" Enable use of the mouse for all modes
+" set mouse=a
+
+" Instead of failing a command because of unsaved changes, instead raise a
+" dialogue asking if you wish to save changed files.
+set confirm
+
+" Use case insensitive search, except when using capital letters
 set ignorecase
 set smartcase
+
 set gdefault
 set incsearch
 set showmatch
-set hlsearch
+set hlsearch " Highlight searches
 set wrap
 set linebreak
 set nolist
@@ -74,7 +121,8 @@ set textwidth=79
 set splitbelow
 set splitright
 
-" remaps
+" KEYBINDINGS
+" ===========
 nnoremap / /\v
 vnoremap / /\v
 "inoremap <F1> <ESC>
@@ -82,22 +130,36 @@ vnoremap / /\v
 "vnoremap <F1> <ESC>
 nnoremap <leader>s :set spell!
 vnoremap . :norm.<CR>
+
+" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,  which is the default
+map Y y$
 map <C-e> :NERDTreeToggle<CR>
 map <Left> :tabp<CR>
 map <Right> :tabn<CR>
 map <Up> :tabe
+
 " get the word under the cursor, and searches for it in the current directory
 " and all subdirectories, opening the quickfix window when done
 map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+
 nmap <F8> :TagbarToggle<CR>
 nmap <F1> :Helptags<CR>
-"save on focus lost
-au FocusLost * :wa
+
+" Use <F11> to toggle between 'paste' and 'nopaste'
+" set pastetoggle=<F11>
+
+au FocusLost * :wa "save on focus lost
 
 " Aesthetics
-colorscheme railscasts
+"colorscheme railscasts
 "colorscheme solarized 
 set background=dark
+
+"""""" seoul256 (dark):
+" Range:   233 (darkest) ~ 239 (lightest)
+"  Default: 237
+let g:seoul256_background = 233
+colo seoul256
 
 " Leader shortcuts
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
