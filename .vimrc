@@ -1,3 +1,6 @@
+if has("win32")
+  let &runtimepath = substitute(&runtimepath,'\(Documents and Settings\|Users\)[\\/][^\\/,]*[\\/]\zsvimfiles\>','.vim','g')
+endif
 " Start plugin management
 " ===============================
 call plug#begin('~/.vim/plugged')
@@ -75,7 +78,8 @@ set showmode
 set showcmd " Show partial commands in the last line of the screen
 set hidden " window and switch from an unsaved buffer without saving it first
 set wildmenu " Better command-line completion
-set wildmode=list:longest
+set wildmode=longest:full,full
+set wildignore+=tags,.*.un~,*.pyc " ignore this files
 set visualbell " Use visual bell instead of beeping when doing something wrong
 
 " And reset the terminal code for the visual bell. If visualbell is set, and
@@ -93,7 +97,8 @@ set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks 
 set laststatus=2 " Always display the status line, even if only one window is displayed
 set number " Display line numbers on the left
 "set relativenumber
-set notimeout ttimeout ttimeoutlen=200 " Quickly time out on keycodes, but never time out on mappings
+set notimeout ttimeout ttimeoutlen=50 " Quickly time out on keycodes, but never time out on mappings
+set timeoutlen=1200 " A little bit more time for macros
 
 " Enable use of the mouse for all modes
 " set mouse=a
@@ -108,7 +113,7 @@ set smartcase
 
 set gdefault
 set incsearch
-set showmatch
+set showmatch  " Show matching brackets.
 set hlsearch " Highlight searches
 set wrap
 set linebreak
@@ -120,6 +125,38 @@ set colorcolumn=250
 set textwidth=79
 set splitbelow
 set splitright
+
+" If on GUI and not on terminal
+if !has("gui_running") && $DISPLAY == '' || !has("gui")
+  set mouse= " show mouse cursor
+endif
+
+" FUNCTIONS
+" =========
+if has('eval')
+  function! OpenURL(url)
+    if has("win32")
+      exe "!start cmd /cstart /b ".a:url.""
+    elseif $DISPLAY !~ '^\w'
+      exe "silent !tpope browse \"".a:url."\""
+    elseif exists(':Start')
+      exe "Start tpope browse -T \"".a:url."\""
+    else
+      exe "!tpope browse -T \"".a:url."\""
+    endif
+    redraw!
+  endfunction
+  
+  command! -nargs=1 OpenURL :call OpenURL(<q-args>)
+  
+  " open URL under cursor in browser
+  nnoremap gb :OpenURL <cfile><CR>
+  nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+  nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+  nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+endif
+
+
 
 " KEYBINDINGS
 " ===========
@@ -184,8 +221,10 @@ nnoremap <leader>d :read !date<CR>
 nnoremap <leader>r :!!<CR>
 nnoremap <leader>m :normal @a
 "nnoremap <leader>l :CtrlP<CR>
+
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
+
 nnoremap <leader>nt :NERDTree<CR>
 nnoremap <leader>n :set nonumber!<CR>
 nnoremap <leader>rn :set norelativenumber!<CR>
@@ -248,7 +287,41 @@ let g:javascript_conceal_super      = "Ω"
 "let g:gitgutter_enabled = 0 "To turn off vim-gitgutter by default
 "let g:gitgutter_signs = 0 "To turn off signs by default
 "let g:gitgutter_highlight_lines = 1 "To turn on line highlighting by default
-
-""Markdow
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
+if has("autocmd")
+  ""Markdow
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  
+  " LANGUAGES
+  " =========
+  autocmd FileType sh,zsh,csh,tcsh        inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
+  autocmd FileType sh,zsh,csh,tcsh        let &l:path = substitute($PATH, ':', ',', 'g')
+  autocmd FileType perl,python,ruby       inoremap <silent> <buffer> <C-X>! #!/usr/bin/env<Space><C-R>=&ft<CR>
+  autocmd FileType c,cpp,cs,java,perl,javscript,php,aspperl,tex,css let b:surround_101 = "\r\n}"
+  autocmd FileType apache       setlocal commentstring=#\ %s
+  autocmd FileType cucumber let b:dispatch = 'cucumber %' | imap <buffer><expr> <Tab> pumvisible() ? "\<C-N>" : (CucumberComplete(1,'') >= 0 ? "\<C-X>\<C-O>" : (getline('.') =~ '\S' ? ' ' : "\<C-I>"))
+  autocmd FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType gitrebase nnoremap <buffer> S :Cycle<CR>
+  autocmd FileType help setlocal ai fo+=2n | silent! setlocal nospell
+  autocmd FileType help nnoremap <silent><buffer> q :q<CR>
+  autocmd FileType html setlocal iskeyword+=~ | let b:dispatch = ':OpenURL %'
+  autocmd FileType lua  setlocal includeexpr=substitute(v:fname,'\\.','/','g').'.lua'
+  autocmd FileType perl let b:dispatch = 'perl -Wc %'
+  autocmd FileType ruby setlocal tw=79 comments=:#\  isfname+=:
+  autocmd FileType ruby
+        \ let b:start = executable('pry') ? 'pry -r "%:p"' : 'irb -r "%:p"' |
+         \ if expand('%') =~# '_test\.rb$' |
+         \   let b:dispatch = 'testrb %' |
+         \ elseif expand('%') =~# '_spec\.rb$' |
+         \   let b:dispatch = 'rspec %' |
+         \ elseif !exists('b:dispatch') |
+         \   let b:dispatch = 'ruby -wc %' |
+         \ endif
+   autocmd FileType vim  setlocal keywordprg=:help |
+         \ if exists(':Runtime') |
+         \   let b:dispatch = ':Runtime' |
+         \   let b:start = ':Runtime|PP' |
+         \ else |
+         \   let b:dispatch = ":unlet! g:loaded_{expand('%:t:r')}|source %" |
+         \ endif
+endif
