@@ -4,6 +4,5 @@ alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall 
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
 if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
-  fi
+  source ~/.bashrc
 fi
