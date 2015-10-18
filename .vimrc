@@ -32,6 +32,7 @@ Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
 Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
 Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "Browse GitHub events (user dashboard, user/repo activity) in Vim.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a general-purpose command-line fuzzy finder.
+Plug 'junegunn/fzf.vim'
 Plug 'wakatime/vim-wakatime' "Vim plugin to quantify your coding with  automatic time tracking and metrics about your programming.
 Plug 'mattn/webapi-vim' " An Interface to WEB APIs.
 Plug 'Shougo/vimshell.vim'
