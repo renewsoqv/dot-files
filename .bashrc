@@ -109,4 +109,7 @@ alias vi='vim'
 
 export EDITOR=vim
 export LANG=en_US.UTF-8
+
+export FZF_DEFAULT_OPTS="--extended --cycle"
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
