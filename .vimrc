@@ -73,8 +73,8 @@ Plug 'junegunn/seoul256.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/base16-vim'
 Plug 'tomasr/molokai'
-Plug '/jpo/vim-railscasts-theme'
-
+Plug 'jpo/vim-railscasts-theme'
+Plug 'KabbAmine/yowish.vim'
 " End plugin management
 " ===============================
 call plug#end()
@@ -273,7 +273,7 @@ imap <Esc>Oz 0
 " Aesthetics
 " ==========
 
-"colorscheme railscasts
+colorscheme railscasts
 "colorscheme solarized 
 set background=dark
 
