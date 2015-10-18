@@ -21,18 +21,41 @@ if [ "$(uname -s)" == "Darwin" ]; then
   [ -z "$(which brew)" ] &&
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-  echo "Updating homebrew"
+  echo "UPDATE HOMEBREW AND INSTALL BASIC PACKAGES"
   brew update
   brew install \
     ag ant cmus coreutils cscope ctags \
     fish git gnuplot graphviz imagemagick \
-    maven memcached mysql redis \
+    maven memcached redis curl \
     sl tmux reattach-to-user-namespace tree unrar vim wget zsh jq
   brew install macvim
   brew install rbenv ruby-build
-  echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+  # Add rbenv to bash so that it loads every time you open a terminal
+  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
+  source ~/.bash_profile
+  
+  echo "RUBY, RAILS, BUNDLE AND SINATRA"
+  # Install Ruby
+  rbenv install 2.2.3
+  rbenv global 2.2.3
+  gem install bundle
+  gem install sinatra
+  gem install rails -v 4.2.4
+  rbenv rehash
 
-# Setup for LINUX
+  echo "DATABASE SETUP"
+  brew install mysql
+  brew install postgresql
+
+  # To have launchd start at login:
+  ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
+  ln -sfv /usr/local/opt/postgresql/*plist ~/Library/LaunchAgents
+
+  # Then to load now:
+  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+
+  # Setup for LINUX
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo "setup rbenv"
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
@@ -48,9 +71,16 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
    echo 'not configured yet :('
 fi
 
-git config --global user.email "renews@gmail.com"
+# Git configuration
+git config --global color.ui true
 git config --global user.name "Renê Schneider"
+git config --global user.email "renews@gmail.com"
+ssh-keygen -t rsa -C "renews@gmail.comm"
 
+ echo "================================"
+ echo "COPY THIS TO YOUR GIT REP SSH"
+ cat ~/.ssh/id_rsa.pub
+ ECHO "================================"
 tmux source-file ~/.tmux.conf
 
 cd $(dirname $BASH_SOURCE)
