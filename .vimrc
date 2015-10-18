@@ -24,7 +24,6 @@ Plug 'terryma/vim-multiple-cursors' " Sublime Text's awesome multiple selection 
 Plug 'tpope/vim-projectionist' " Projectionist provides granular project configuration using 'projections' 
 Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more.
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
-" Plug 'szw/vim-ctrlspace' "Search
 Plug 'kien/ctrlp.vim' "Amazing search plugin
 
  " Utilities
@@ -35,6 +34,9 @@ Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "B
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a general-purpose command-line fuzzy finder.
 Plug 'wakatime/vim-wakatime' "Vim plugin to quantify your coding with  automatic time tracking and metrics about your programming.
 Plug 'mattn/webapi-vim' " An Interface to WEB APIs.
+Plug 'Shougo/vimshell.vim'
+Plug 'mattn/gist-vim'
+Plug 'Raimondi/delimitMate' "This plug-in provides automatic closing of quotes, parenthesis, brackets, etc.
 
 " Leverage the power of Vim's compiler plugins without being bound by  synchronicity. Kick off builds and test suites using one of several
 " asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless  mode), and when the job completes, errors will be loaded and parsed
@@ -61,7 +63,9 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rbenv'
 Plug 'tpope/vim-markdown' " sintax highlight for markdown
 Plug 'skalnik/vim-vroom' "Run your Ruby tests! Supports RSpec, Test::Unit/MiniTest, Konacha, and Cucumber.
-
+Plug 'cmather/vim-meteor-snippets'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'bonsaiben/bootstrap-snippets'
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -217,6 +221,7 @@ map <F1> :previous<CR>  " map F1 to open previous buffer
 map <F2> :next<CR>      " map F2 to open next buffer
 map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 nmap <F4> :Helptags<CR>
+nnoremap <F5> :GundoToggle<CR>
 nmap <F8> :TagbarToggle<CR>
 
 " special char's 
@@ -273,7 +278,7 @@ imap <Esc>Oz 0
 " Aesthetics
 " ==========
 
-colorscheme railscasts
+"colorscheme railscasts
 "colorscheme solarized 
 set background=dark
 
@@ -281,7 +286,10 @@ set background=dark
 " Range:   233 (darkest) ~ 239 (lightest)
 "  Default: 237
 let g:seoul256_background = 233
-colo seoul256
+" colo seoul256
+" colo solarized
+" colo molokai 
+colo railscasts
 
 " Leader shortcuts
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
@@ -328,6 +336,16 @@ set directory=~/.vim/tmp     " Where temporary files will go.
 "CTRl-P search plugin
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+
+
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+ let g:UltiSnipsExpandTrigger="<c-x>"
+ let g:UltiSnipsJumpForwardTrigger="<c-b>"
+ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" " If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 "Exclude files and directories using Vim's wildignore and CtrlP's own
 "g:ctrlp_custom_ignore
