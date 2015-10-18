@@ -74,10 +74,23 @@ ESC="\033"
 
 PROMPT_COMMAND='export ERR=$?'
 
+### Colored ls
+if [ -x /usr/bin/dircolors ]; then
+  eval "`dircolors -b`"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+elif [ "$PLATFORM" = Darwin ]; then
+  alias ls='ls -G'
+fi
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias e='vi'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias cd.='cd ..'
+alias cd..='cd ..'
+alias k9='kill -9 %%'
 alias egrep='grep -E'
 alias fgrep='grep -F'
 alias ls='ls -FG'
@@ -91,5 +104,9 @@ alias dh='df -h'
 alias rh= 'heroku restart -a'
 alias rs='rails s'
 alias rc='rails c'
+alias v='vim'
+alias vi='vim'
 
+export EDITOR=vim
+export LANG=en_US.UTF-8
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
