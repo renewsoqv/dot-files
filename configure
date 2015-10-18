@@ -55,7 +55,14 @@ if [ "$(uname -s)" == "Darwin" ]; then
   launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
   launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 
-  # Setup for LINUX
+  echo "INSTALL METEOR"
+  curl https://install.meteor.com/ | sh
+
+  echo "INSTALL ELIXIR"
+  brew install elixir
+  export PATH="$PATH:/path/to/elixir/bin" >> ~/.bash_profile
+  
+# Setup for LINUX
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo "setup rbenv"
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
