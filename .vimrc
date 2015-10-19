@@ -225,8 +225,8 @@ endif
 " ===========
 
 " F1 ~ f12
-nnoremap <F1> :previous<CR>  " map F1 to open previous buffer
-nnoremap <F2> :next<CR>      " map F2 to open next buffer
+nnoremap <F1> :bprevious<CR>  " map F1 to open previous buffer
+nnoremap <F2> :bnext<CR>      " map F2 to open next buffer
 " map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
