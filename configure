@@ -110,4 +110,5 @@ ln -sf $BASE/vimrc ~/.vimrc
 
 vim +PlugInstall +qall
 
-rm configure
+rm -f ~/configure
+rm -rf ~/dot-files
