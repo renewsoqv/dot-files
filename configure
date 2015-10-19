@@ -5,7 +5,7 @@ cd $(dirname $BASH_SOURCE)
 BASE=$(pwd)
 
 for rc in *rc *profile tmux.conf agignore; do
-  mv ~/.$rc ~/.$rc.backup
+  mv ~/.$rc ~/."$rc.backup"
 done
 
 # git-prompt
