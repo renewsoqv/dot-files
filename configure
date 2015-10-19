@@ -29,7 +29,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
   
   brew update
   brew install \
-    ag ant cmus coreutils cscope ctags \
+    ag aget ant cmus coreutils cscope ctags \
     cmake fish git gnuplot graphviz imagemagick \
     maven memcached redis curl \
     sl tmux reattach-to-user-namespace tree unrar vim wget zsh jq macvim
