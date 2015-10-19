@@ -486,25 +486,26 @@ if has("au")
   au FileType helpfile nnoremap <buffer><cr> <c-]> " Enter selects subject
   au FileType helpfile nnoremap <buffer><bs> <c-T> " Backspace to go back
   
-  ""Markdow
+  " Set filetypes
   au BufNewFile,BufReadPost *.md set filetype=markdown
+  au BufNewFile,BufReadPost *.rb set filetype=ruby
   
-  au BufNewFile,BufReadPost,FileType sh,zsh,csh,tcsh        inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
-  au BufNewFile,BufReadPost,FileType sh,zsh,csh,tcsh        let &l:path = substitute($PATH, ':', ',', 'g')
-  au BufNewFile,BufReadPost,FileType perl,python,ruby       inoremap <silent> <buffer> <C-X>! #!/usr/bin/env<Space><C-R>=&ft<CR>
-  au BufNewFile,BufReadPost,FileType c,cpp,cs,java,perl,javscript,php,aspperl,tex,css let b:surround_101 = "\r\n}"
-  au BufNewFile,BufReadPost,FileType apache       setlocal commentstring=#\ %s
-  au BufNewFile,BufReadPost,FileType cucumber let b:dispatch = 'cucumber %' | imap <buffer><expr> <Tab> pumvisible() ? "\<C-N>" : (CucumberComplete(1,'') >= 0 ? "\<C-X>\<C-O>" : (getline('.') =~ '\S' ? ' ' : "\<C-I>"))
-  au BufNewFile,BufReadPost,FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
-  au BufNewFile,BufReadPost,FileType gitcommit setlocal spell
-  au BufNewFile,BufReadPost,FileType gitrebase nnoremap <buffer> S :Cycle<CR>
-  au BufNewFile,BufReadPost,FileType help setlocal ai fo+=2n | silent! setlocal nospell
-  au BufNewFile,BufReadPost,FileType help nnoremap <silent><buffer> q :q<CR>
-  au BufNewFile,BufReadPost,FileType html setlocal iskeyword+=~ | let b:dispatch = ':OpenURL %'
-  au BufNewFile,BufReadPost,FileType lua  setlocal includeexpr=substitute(v:fname,'\\.','/','g').'.lua'
-  au BufNewFile,BufReadPost,FileType perl let b:dispatch = 'perl -Wc %'
-  au BufNewFile,BufReadPost,FileType ruby setlocal tw=79 comments=:#\  isfname+=:
-  au BufNewFile,BufReadPost,FileType ruby
+  au FileType sh,zsh,csh,tcsh        inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
+  au FileType sh,zsh,csh,tcsh        let &l:path = substitute($PATH, ':', ',', 'g')
+  au FileType perl,python,ruby       inoremap <silent> <buffer> <C-X>! #!/usr/bin/env<Space><C-R>=&ft<CR>
+  au FileType c,cpp,cs,java,perl,javscript,php,aspperl,tex,css let b:surround_101 = "\r\n}"
+  au FileType apache       setlocal commentstring=#\ %s
+  au FileType cucumber let b:dispatch = 'cucumber %' | imap <buffer><expr> <Tab> pumvisible() ? "\<C-N>" : (CucumberComplete(1,'') >= 0 ? "\<C-X>\<C-O>" : (getline('.') =~ '\S' ? ' ' : "\<C-I>"))
+  au FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
+  au FileType gitcommit setlocal spell
+  au FileType gitrebase nnoremap <buffer> S :Cycle<CR>
+  au FileType help setlocal ai fo+=2n | silent! setlocal nospell
+  au FileType help nnoremap <silent><buffer> q :q<CR>
+  au FileType html setlocal iskeyword+=~ | let b:dispatch = ':OpenURL %'
+  au FileType lua  setlocal includeexpr=substitute(v:fname,'\\.','/','g').'.lua'
+  au FileType perl let b:dispatch = 'perl -Wc %'
+  au FileType ruby setlocal tw=79 comments=:#\  isfname+=:
+  au FileType ruby
         \ let b:start = executable('pry') ? 'pry -r "%:p"' : 'irb -r "%:p"' |
          \ if expand('%') =~# '_test\.rb$' |
          \   let b:dispatch = 'testrb %' |
