@@ -3,11 +3,9 @@
 # RC files
 cd $(dirname $BASH_SOURCE)
 BASE=$(pwd)
-touch bashrc-extra
+
 for rc in *rc *profile tmux.conf agignore; do
-  mkdir -pv bak
-  [ -e ~/.$rc ] && mv -v ~/.$rc bak/.$rc
-  mv -fvb $BASE/$rc ~/.$rc
+  mv ~/.$rc ~/.$rc.backup
 done
 
 # git-prompt
@@ -31,8 +29,6 @@ if [ "$(uname -s)" == "Darwin" ]; then
   brew install macvim
   brew install rbenv ruby-build
   # Add rbenv to bash so that it loads every time you open a terminal
-  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
-  source ~/.bash_profile
   
   echo "RUBY, RAILS, BUNDLE AND SINATRA"
   # Install Ruby
@@ -109,9 +105,9 @@ curl --insecure -fLo ~/.vim/plugin/Rename.vim  http://www.vim.org/scripts/downlo
 
 vim +PlugInstall +qall
 
-rm -f ~/configure
-rm -rf ~/dot-files
-cd ~/
 source ~/.vimrc
 source ~/.bashrc
 source ~/.bash_profile
+source ~/.zshrc
+rm -f ~/configure
+rm -rf ~/dot-files
