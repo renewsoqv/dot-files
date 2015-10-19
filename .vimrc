@@ -303,7 +303,8 @@ colo railscasts
 " Leader shortcuts
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ag
+nnoremap <leader>ca :%y+ " copy file content to clipboard
 nnoremap <leader>ft Vatzf
 nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 nnoremap <leader>q gqip
