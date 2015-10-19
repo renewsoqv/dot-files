@@ -7,7 +7,7 @@ touch bashrc-extra
 for rc in *rc *profile tmux.conf agignore; do
   mkdir -pv bak
   [ -e ~/.$rc ] && mv -v ~/.$rc bak/.$rc
-  ln -sfv $BASE/$rc ~/.$rc
+  mv -fvb $BASE/$rc ~/.$rc
 done
 
 # git-prompt
@@ -91,7 +91,7 @@ ssh-keygen -t rsa -C "renews@gmail.comm"
  echo "================================"
  echo "COPY THIS TO YOUR GIT REP SSH"
  cat ~/.ssh/id_rsa.pub
- ECHO "================================"
+ echo "================================"
 tmux source-file ~/.tmux.conf
 
 cd $(dirname $BASH_SOURCE)
@@ -104,11 +104,11 @@ mkdir -p ~/.vim/tmp/backups
 curl --insecure -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim
 curl --insecure -fLo ~/.vim/plugin/Rename.vim  http://www.vim.org/scripts/download_script.php?src_id=16331 # vim plugin renamer :saveas
 
-# vimrc
-mv -v ~/.vimrc ~/.vimrc.old 2> /dev/null
-ln -sf $BASE/vimrc ~/.vimrc
-
 vim +PlugInstall +qall
 
 rm -f ~/configure
 rm -rf ~/dot-files
+cd ~/
+source ~/.vimrc
+source ~/.bashrc
+source ~/.bash_profile
