@@ -19,6 +19,8 @@ fi
 
 # Setup for MACOS
 if [ "$(uname -s)" == "Darwin" ]; then
+  xcode-select --install
+  
   echo "=========================================="
   echo "Started HOMEBREW process "
   # Homebrew
