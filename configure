@@ -1,3 +1,18 @@
+Skip to content
+This repository  
+Search
+Pull requests
+Issues
+Gist
+ @renews
+ Unwatch 1
+  Star 0
+  Fork 1 renews/dot-files
+ Branch: master  dot-files/configure
+6189bda  18 minutes ago
+@renews renews fix name, remove -n
+2 contributors @renews @valencar
+RawBlameHistory     172 lines (143 sloc)  4.91 KB
 #!/bin/bash   
 
 # RC files
@@ -31,18 +46,20 @@ if [ "$(uname -s)" == "Darwin" ]; then
     cmake fish git gnuplot graphviz imagemagick \
     maven memcached redis curl \
     sl tmux reattach-to-user-namespace tree unrar vim wget zsh jq macvim
+  brew update
+  nrew upgrade
   echo "Finished HOMEBREW process"
   echo "=========================================="
   
+
   read -r -p "Do you wanna install RBENV? [y/N] " resp_rbenv
-  if [[ $resp_rbenv =~ ^([yY][eE][sS]|[yY])$ ]]
+  if [[ $resp_rbenv =~ ^([yY]|[sS])$ ]]
   then
     brew install rbenv ruby-build
   fi
-  
-  
+    
   read -r -p "Do you wanna install Ruby, Rails and Sinatra? [y/N] " resp_ror
-  if [[ $resp_ror =~ ^([yY][eE][sS]|[yY])$ ]]
+  if [[ $resp_ror =~ ^([yY]|[sS])$ ]]
   then
     rbenv install 2.2.3
     rbenv global 2.2.3
@@ -52,63 +69,59 @@ if [ "$(uname -s)" == "Darwin" ]; then
     rbenv rehash
   fi
 
-  read -r -p "Do you wanna install MySQL? [y/N] " resp_mysql
-  if [[ $resp_mysql =~ ((?i)^y|e|s|yes$) ]]
+  read -r -p "Do you wanna install MySQL? [y/N]" resp_mysql
+  if [[ $resp_mysql =~ ^([yY]|[sS])$ ]]
   then
     brew install mysql
     # Fix MySQL installatyion for OS X El Capitan
     ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/local/lib/libmysqlclient.18.dylib   
     
     read -r -p "Make MySQL start with system? [y/N] " resp_mysql_s
-    if [[ $resp_mysql_s =~ ((?i)^y|e|s|yes$) ]]
+    if [[ $resp_mysql_s =~ ^([yY]|[sS])$ ]]
     then
       ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
     fi
     
     read -r -p "Make MySQL start right NOW? [y/N] " resp_mysql_n
-    if [[ $resp_mysql_n =~ ((?i)^y|e|s|yes$) ]]
+    if [[ $resp_mysql_n =~ ^([yY]|[sS])$ ]]
     then
       launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
     fi
   fi
-
   read -r -p "Do you wanna install PostgreSQL? [y/N] " resp_postg
-  if [[ $resp_psotg =~ ((?i)^y|e|s|yes$) ]]
+  if [[ $resp_psotg =~ ^([yY]|[sS])$ ]]
   then
     brew install postgresql
     
     read -r -p "Make PostgreSQL start with system? [y/N] " resp_postg_s
-    if [[ $resp_postg_s =~ ((?i)^y|e|s|yes$) ]]
+    if [[ $resp_postg_s =~ ^([yY]|[sS])$ ]]
     then
       ln -sfv /usr/local/opt/postgresql/*plist ~/Library/LaunchAgents
     fi
     
     read -r -p "Make MySQL start right NOW? [y/N] " resp_postg_n
-    if [[ $resp_postg_n =~ ((?i)^y|e|s|yes$) ]]
+    if [[ $resp_postg_n =~ ^([yY]|[sS])$ ]]
     then
       launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
     fi
   fi
-
   read -r -p "Wanna install the latest Meteor version?" resp_meteor
-  if [[ $resp_meteor =~ ((?i)^y|e|s|yes$) ]]
+  if [[ $resp_meteor =~ ^([yY]|[sS])$ ]]
   then
     curl https://install.meteor.com/ | sh
   fi
-
   read -r -p "Wanna install Elixir?" resp_elixir
-  if [[ $resp_elixr =~ ((?i)^y|e|s|yes$) ]]
+  if [[ $resp_elixr =~ ^([yY]|[sS])$ ]]
   then
     brew install elixir
   fi
  
   read -r -p "Wanna install FZF (imagine spotlight search on command line)?" resp_fzf
-  if [[ $resp_fzf =~ ((?i)^y|e|s|yes$) ]]
+  if [[ $resp_fzf =~ ^([yY]|[sS])$ ]]
   then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
   fi
-
 # Setup for LINUX
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo "setup rbenv"
@@ -119,12 +132,10 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
    echo 'not configured yet :('
 fi
-
   read -r -p "Wanna setup GIT?" resp_git
-  if [[ $resp_git =~ ((?i)^y|e|s|yes$) ]]
+  if [[ $resp_git =~ ^([yY]|[sS])$ ]]
   then
     git config --global color.ui true
-
     read -r -p "Name to be used on GIT:" resp_git_n
     if [[ $resp_git_n =~ ^([a-z]{2,})$ ]]
     then
@@ -134,6 +145,7 @@ fi
     read -r -p "E-mail to be used on GIT:" resp_git_e
     if [[ $resp_git_e =~ ^([a-z]{2,})$ ]]
     then
+    echo "Email: $resp_git_e"
       git config --global user.email "$resp_git_e"
     fi
     
