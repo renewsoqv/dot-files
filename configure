@@ -6,7 +6,7 @@ BASE=$(pwd)
 
 echo "==============================="
 echo "= Making backup of your files!"
-for rc in *rc *profile tmux.conf agignore; do
+for rc in *rc *profile tmux.conf agignore .vim; do
   mv ~/.$rc ~/."$rc.backup"
 done
 echo "= Finished backuping your files"
