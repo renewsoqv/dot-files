@@ -112,7 +112,7 @@ set softtabstop=2
 set expandtab " tabs are converted to spaces, use only when required
 
 " basic config
-set history=256  " Number of things to remember in history
+set history=1000  " Number of things to remember in history
 set shell=/bin/zsh
 set guifont=Menlo:h14
 set encoding=utf-8
@@ -173,8 +173,8 @@ set wrap
 set linebreak
 set nolist
 set formatoptions=qrn1
-set spell spelllang=en_us
-set nospell
+set spell spelllang=en_us "spell check language"
+set nospell "ignore spell checking"
 set colorcolumn=250
 set textwidth=79
 set splitbelow
