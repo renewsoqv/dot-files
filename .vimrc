@@ -1,7 +1,6 @@
 if has("win32")
   let &runtimepath = substitute(&runtimepath,'\(Documents and Settings\|Users\)[\\/][^\\/,]*[\\/]\zsvimfiles\>','.vim','g')
 endif
-
 " ==============================
 " Start plugin management
 " ===============================
@@ -24,9 +23,10 @@ Plug 'terryma/vim-multiple-cursors' " Sublime Text's awesome multiple selection 
 Plug 'tpope/vim-projectionist' " Projectionist provides granular project configuration using 'projections' 
 Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more.
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
+Plug 'dkprice/vim-easygrep' "Fast and Easy Find and Replace Across Multiple Files
 Plug 'kien/ctrlp.vim' "Amazing search plugin
-
- " Utilities
+ 
+" Utilities
 Plug 'tpope/vim-commentary' "Comment stuff out. 
 Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
 Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
@@ -118,7 +118,7 @@ set guifont=Menlo:h14
 set encoding=utf-8
 set scrolloff=3
 set undofile
-set sm             " show matching braces, somewhat annoying...
+set sm   
 " When opening a new line and no filetype-specific indenting is enabled, keep
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
@@ -181,6 +181,7 @@ set splitbelow
 set splitright
 
 au FocusLost * :wa "save on focus lost
+au VimEnter * call AirlineInit()
 
 " If on GUI and not on terminal
 if !has("gui_running") && $DISPLAY == '' || !has("gui")
@@ -189,6 +190,12 @@ endif
 
 " FUNCTIONS
 " =========
+
+" Add clock to Airline StatusBar
+function! AirlineInit()
+  let g:airline_section_z = airline#section#create(['ffenc', ' %{strftime("%d/%m - %H:%M")}'])
+endfunction
+  
 if has('eval')
   function! OpenURL(url)
     if has("win32")
@@ -218,13 +225,13 @@ endif
 " ===========
 
 " F1 ~ f12
-map <F1> :previous<CR>  " map F1 to open previous buffer
-map <F2> :next<CR>      " map F2 to open next buffer
+nnoremap <F1> :previous<CR>  " map F1 to open previous buffer
+nnoremap <F2> :next<CR>      " map F2 to open next buffer
 " map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
-nmap <F3> :TagbarToggle<CR>
-map <F12> :Calendar
+nnoremap <F3> :TagbarToggle<CR>
+nnoremap <F12> :Calendar
 
 " special char's 
 map ,v :sp ~/.vimrc<cr> " edit my .vimrc file in a split
@@ -236,8 +243,8 @@ vnoremap . :norm.<CR>
 
 " preventing annoying error's
 cmap W w
-cmap Q q
 cmap Wq wq
+nnoremap Q <nop>
 vnoremap <c-r> :redo<CR>
 nnoremap <leader>s :set spell!
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,  which is the default
@@ -303,8 +310,8 @@ nnoremap <leader>q gqip
 nnoremap <leader>A V`]y "copy file content
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Split window
-nnoremap <leader>v <C-w>v
-nnoremap <leader>h <C-w>s
+nnoremap <leader>d <C-w>v
+nnoremap <leader>D <C-w>s
 nnoremap <leader>w <C-w><C-w>
 
 nnoremap <leader>j VipJ
@@ -317,11 +324,12 @@ nnoremap <leader>p :!git commit -am 'Updatefile.' && git push origin_hub master<
 nnoremap <leader>d :read !date<CR>
 nnoremap <leader>r :!!<CR>
 nnoremap <leader>m :normal @a
-"nnoremap <leader>l :CtrlP<CR>
+nnoremap <leader>l :CtrlPMixed<CR>
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
+nnoremap <leader>e :Explore<CR>
 nnoremap <leader>nt :NERDTree<CR>
 nnoremap <leader>n :set nonumber!<CR>
 nnoremap <leader>rn :set norelativenumber!<CR>
@@ -338,34 +346,28 @@ set directory=~/.vim/tmp     " Where temporary files will go.
 
 """"""" Plugins configuration
 "CTRl-P search plugin
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-
-
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
- let g:UltiSnipsExpandTrigger="<c-x>"
- let g:UltiSnipsJumpForwardTrigger="<c-b>"
- let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 
 "Exclude files and directories using Vim's wildignore and CtrlP's own
-"g:ctrlp_custom_ignore
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
-"let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+" let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
+
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
+  \ 'file': '\v\.(exe|so|dll)$'
   \ }
 
-"Use a custom file listing command:
-let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
-let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-x>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" " If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 " Syntastic
 set statusline+=%#warningmsg#
@@ -378,8 +380,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " NERdTree - Open it automatically if no files specified.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+au StdinReadPre * let s:std_in=1
+au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Calendar
 let g:calendar_google_calendar = 1
@@ -430,9 +432,9 @@ EOF
   if !empty(cands)
     inoremap <buffer> <c-v> <c-n>
     augroup _VimAwesomeComplete
-      autocmd!
-      autocmd CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
-              \| autocmd! _VimAwesomeComplete
+      au!
+      au CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
+              \| au! _VimAwesomeComplete
     augroup END
     
     call complete(col('.') - strchars(prefix), cands)
@@ -441,21 +443,21 @@ EOF
 endfunction
 
 augroup VimAwesomeComplete
-  autocmd!
-  autocmd FileType vim inoremap <c-x><c-v> <c-r>=VimAwesomeComplete()<cr>
+  au!
+  au FileType vim inoremap <c-x><c-v> <c-r>=VimAwesomeComplete()<cr>
 augroup END
 
 
 " Javascript Libraries - https://github.com/othree/javascript-libraries-syntax.vim
 "let g:used_javascript_libs = 'underscore,angularjs,angularui,angularuirouter'
-autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 0
-autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
-autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_angularui = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_angularuirouter = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_react = 1
+au BufReadPre *.js let b:javascript_lib_use_jquery = 1
+au BufReadPre *.js let b:javascript_lib_use_underscore = 1
+au BufReadPre *.js let b:javascript_lib_use_backbone = 0
+au BufReadPre *.js let b:javascript_lib_use_prelude = 0
+au BufReadPre *.js let b:javascript_lib_use_angularjs = 1
+au BufReadPre *.js let b:javascript_lib_use_angularui = 1
+au BufReadPre *.js let b:javascript_lib_use_angularuirouter = 1
+au BufReadPre *.js let b:javascript_lib_use_react = 1
 
 " https://github.com/pangloss/vim-javascript - JavaScript bundle for vim, this
 " bundle provides syntax and indent plugins.
@@ -478,31 +480,31 @@ let g:javascript_conceal_super      = "Ω"
 
   " LANGUAGES
   " =========
-if has("autocmd")
-  " Filetypes (au = autocmd)
+if has("au")
+  " Filetypes (au = au)
   au FileType helpfile set nonumber      " no line numbers when viewing help
   au FileType helpfile nnoremap <buffer><cr> <c-]> " Enter selects subject
   au FileType helpfile nnoremap <buffer><bs> <c-T> " Backspace to go back
   
   ""Markdow
-  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  au BufNewFile,BufReadPost *.md set filetype=markdown
   
-  autocmd FileType sh,zsh,csh,tcsh        inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
-  autocmd FileType sh,zsh,csh,tcsh        let &l:path = substitute($PATH, ':', ',', 'g')
-  autocmd FileType perl,python,ruby       inoremap <silent> <buffer> <C-X>! #!/usr/bin/env<Space><C-R>=&ft<CR>
-  autocmd FileType c,cpp,cs,java,perl,javscript,php,aspperl,tex,css let b:surround_101 = "\r\n}"
-  autocmd FileType apache       setlocal commentstring=#\ %s
-  autocmd FileType cucumber let b:dispatch = 'cucumber %' | imap <buffer><expr> <Tab> pumvisible() ? "\<C-N>" : (CucumberComplete(1,'') >= 0 ? "\<C-X>\<C-O>" : (getline('.') =~ '\S' ? ' ' : "\<C-I>"))
-  autocmd FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType gitrebase nnoremap <buffer> S :Cycle<CR>
-  autocmd FileType help setlocal ai fo+=2n | silent! setlocal nospell
-  autocmd FileType help nnoremap <silent><buffer> q :q<CR>
-  autocmd FileType html setlocal iskeyword+=~ | let b:dispatch = ':OpenURL %'
-  autocmd FileType lua  setlocal includeexpr=substitute(v:fname,'\\.','/','g').'.lua'
-  autocmd FileType perl let b:dispatch = 'perl -Wc %'
-  autocmd FileType ruby setlocal tw=79 comments=:#\  isfname+=:
-  autocmd FileType ruby
+  au BufNewFile,BufReadPost,FileType sh,zsh,csh,tcsh        inoremap <silent> <buffer> <C-X>! #!/bin/<C-R>=&ft<CR>
+  au BufNewFile,BufReadPost,FileType sh,zsh,csh,tcsh        let &l:path = substitute($PATH, ':', ',', 'g')
+  au BufNewFile,BufReadPost,FileType perl,python,ruby       inoremap <silent> <buffer> <C-X>! #!/usr/bin/env<Space><C-R>=&ft<CR>
+  au BufNewFile,BufReadPost,FileType c,cpp,cs,java,perl,javscript,php,aspperl,tex,css let b:surround_101 = "\r\n}"
+  au BufNewFile,BufReadPost,FileType apache       setlocal commentstring=#\ %s
+  au BufNewFile,BufReadPost,FileType cucumber let b:dispatch = 'cucumber %' | imap <buffer><expr> <Tab> pumvisible() ? "\<C-N>" : (CucumberComplete(1,'') >= 0 ? "\<C-X>\<C-O>" : (getline('.') =~ '\S' ? ' ' : "\<C-I>"))
+  au BufNewFile,BufReadPost,FileType git,gitcommit setlocal foldmethod=syntax foldlevel=1
+  au BufNewFile,BufReadPost,FileType gitcommit setlocal spell
+  au BufNewFile,BufReadPost,FileType gitrebase nnoremap <buffer> S :Cycle<CR>
+  au BufNewFile,BufReadPost,FileType help setlocal ai fo+=2n | silent! setlocal nospell
+  au BufNewFile,BufReadPost,FileType help nnoremap <silent><buffer> q :q<CR>
+  au BufNewFile,BufReadPost,FileType html setlocal iskeyword+=~ | let b:dispatch = ':OpenURL %'
+  au BufNewFile,BufReadPost,FileType lua  setlocal includeexpr=substitute(v:fname,'\\.','/','g').'.lua'
+  au BufNewFile,BufReadPost,FileType perl let b:dispatch = 'perl -Wc %'
+  au BufNewFile,BufReadPost,FileType ruby setlocal tw=79 comments=:#\  isfname+=:
+  au BufNewFile,BufReadPost,FileType ruby
         \ let b:start = executable('pry') ? 'pry -r "%:p"' : 'irb -r "%:p"' |
          \ if expand('%') =~# '_test\.rb$' |
          \   let b:dispatch = 'testrb %' |
@@ -511,11 +513,11 @@ if has("autocmd")
          \ elseif !exists('b:dispatch') |
          \   let b:dispatch = 'ruby -wc %' |
          \ endif
- autocmd FileType vim  setlocal keywordprg=:help |
-         \ if exists(':Runtime') |
-         \   let b:dispatch = ':Runtime' |
-         \   let b:start = ':Runtime|PP' |
-         \ else |
-         \   let b:dispatch = ":unlet! g:loaded_{expand('%:t:r')}|source %" |
-         \ endif
+ " au FileType vim  setlocal keywordprg=:help |
+ "         \ if exists(':Runtime') |
+ "         \   let b:dispatch = ':Runtime' |
+ "         \   let b:start = ':Runtime|PP' |
+ "         \ else |
+ "         \   let b:dispatch = ":unlet! g:loaded_{expand('%:t:r')}|source %" |
+ "         \ endif
 endif
