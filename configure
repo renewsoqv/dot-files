@@ -46,6 +46,9 @@ if [ "$(uname -s)" == "Darwin" ]; then
   echo "DATABASE SETUP"
   brew install mysql
   brew install postgresql
+  
+  # Fix MySQL installation for OS X El Capitan
+  ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/local/lib/libmysqlclient.18.dylib
 
   # To have launchd start at login:
   ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
