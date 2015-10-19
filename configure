@@ -4,9 +4,13 @@
 cd $(dirname $BASH_SOURCE)
 BASE=$(pwd)
 
+echo "==============================="
+echo "= Making backup of your files!"
 for rc in *rc *profile tmux.conf agignore; do
   mv ~/.$rc ~/."$rc.backup"
 done
+echo "= Finished backuping your files"
+echo "==============================="
 
 # git-prompt
 if [ ! -e ~/.git-prompt.sh ]; then
@@ -15,64 +19,100 @@ fi
 
 # Setup for MACOS
 if [ "$(uname -s)" == "Darwin" ]; then
+  echo "=========================================="
+  echo "Started HOMEBREW process "
   # Homebrew
   [ -z "$(which brew)" ] &&
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-  echo "UPDATE HOMEBREW AND INSTALL BASIC PACKAGES"
+  
   brew update
   brew install \
     ag ant cmus coreutils cscope ctags \
     cmake fish git gnuplot graphviz imagemagick \
     maven memcached redis curl \
-    sl tmux reattach-to-user-namespace tree unrar vim wget zsh jq
-  brew install macvim
-  brew install rbenv ruby-build
-  # Add rbenv to bash so that it loads every time you open a terminal
+    sl tmux reattach-to-user-namespace tree unrar vim wget zsh jq macvim
+  echo "Finished HOMEBREW process"
+  echo "=========================================="
   
-  echo "RUBY, RAILS, BUNDLE AND SINATRA"
-  # Install Ruby
-  rbenv install 2.2.3
-  rbenv global 2.2.3
-  gem install bundle
-  gem install sinatra
-  gem install rails -v 4.2.4
-  rbenv rehash
-
-  echo "DATABASE SETUP"
-  brew install mysql
-  brew install postgresql
+  read -r -p -n "Do you wanna install RBENV? [y/N] " resp_rbenv
+  if [[ $resp_rbenv =~ ^([yY][eE][sS]|[yY])$ ]]
+  then
+    brew install rbenv ruby-build
+  fi
   
-  # Fix MySQL installation for OS X El Capitan
-  ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/local/lib/libmysqlclient.18.dylib
+  
+  read -r -p -n "Do you wanna install Ruby, Rails and Sinatra? [y/N] " resp_ror
+  if [[ $resp_ror =~ ^([yY][eE][sS]|[yY])$ ]]
+  then
+    rbenv install 2.2.3
+    rbenv global 2.2.3
+    gem install bundle
+    gem install sinatra
+    gem install rails -v 4.2.4
+    rbenv rehash
+  fi
 
-  # To have launchd start at login:
-  ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
-  ln -sfv /usr/local/opt/postgresql/*plist ~/Library/LaunchAgents
+  read -r -p -n "Do you wanna install MySQL? [y/N] " resp_mysql
+  if [[ $resp_mysql =~ ((?i)^y|e|s|yes$) ]]
+  then
+    brew install mysql
+    # Fix MySQL installatyion for OS X El Capitan
+    ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/local/lib/libmysqlclient.18.dylib   
+    
+    read -r -p -n "Make MySQL start with system? [y/N] " resp_mysql_s
+    if [[ $resp_mysql_s =~ ((?i)^y|e|s|yes$) ]]
+    then
+      ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
+    fi
+    
+    read -r -p -n "Make MySQL start right NOW? [y/N] " resp_mysql_n
+    if [[ $resp_mysql_n =~ ((?i)^y|e|s|yes$) ]]
+    then
+      launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+    fi
+  fi
 
-  # Then to load now:
-  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
-  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+  read -r -p -n "Do you wanna install PostgreSQL? [y/N] " resp_postg
+  if [[ $resp_psotg =~ ((?i)^y|e|s|yes$) ]]
+  then
+    brew install postgresql
+    
+    read -r -p -n "Make PostgreSQL start with system? [y/N] " resp_postg_s
+    if [[ $resp_postg_s =~ ((?i)^y|e|s|yes$) ]]
+    then
+      ln -sfv /usr/local/opt/postgresql/*plist ~/Library/LaunchAgents
+    fi
+    
+    read -r -p -n "Make MySQL start right NOW? [y/N] " resp_postg_n
+    if [[ $resp_postg_n =~ ((?i)^y|e|s|yes$) ]]
+    then
+      launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+    fi
+  fi
 
-  echo "INSTALL METEOR"
-  curl https://install.meteor.com/ | sh
+  read -r -p -n "Wanna install the latest Meteor version?" resp_meteor
+  if [[ $resp_meteor =~ ((?i)^y|e|s|yes$) ]]
+  then
+    curl https://install.meteor.com/ | sh
+  fi
 
-  echo "INSTALL ELIXIR"
-  brew install elixir
+  read -r -p -n "Wanna install Elixir?" resp_elixir
+  if [[ $resp_elixr =~ ((?i)^y|e|s|yes$) ]]
+  then
+    brew install elixir
+  fi
  
-  echo "INSTALL FZF"
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install
+  read -r -p -n "Wanna install FZF (imagine spotlight search on command line)?" resp_fzf
+  if [[ $resp_fzf =~ ((?i)^y|e|s|yes$) ]]
+  then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+  fi
 
 # Setup for LINUX
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo "setup rbenv"
   git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
-  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-  echo 'eval "$(rbenv init -)"' >> ~/.zshrc
-  echo "setup ruby-build"
   git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
   
 # Setup for WINDOWS
@@ -80,17 +120,31 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
    echo 'not configured yet :('
 fi
 
-# Git configuration
-git config --global color.ui true
-git config --global user.name "Renê Schneider"
-git config --global user.email "renews@gmail.com"
-ssh-keygen -t rsa -C "renews@gmail.comm"
+  read -r -p -n "Wanna setup GIT?" resp_git
+  if [[ $resp_git =~ ((?i)^y|e|s|yes$) ]]
+  then
+    git config --global color.ui true
 
- echo "================================"
- echo "COPY THIS TO YOUR GIT REP SSH"
- cat ~/.ssh/id_rsa.pub
- echo "================================"
-tmux source-file ~/.tmux.conf
+    read -r -p -n "Name to be used on GIT:" resp_git_n
+    if [[ $resp_git_n =~ ^([a-z]{2,})$ ]]
+    then
+      git config --global user.name "$resp_git_n"
+    fi
+    
+    read -r -p -n "E-mail to be used on GIT:" resp_git_e
+    if [[ $resp_git_e =~ ^([a-z]{2,})$ ]]
+    then
+      git config --global user.email "$resp_git_e"
+    fi
+    
+    read -r -p -n "Generate SSH key?:" resp_git_ssh
+    if [[ $resp_git_ssh =~ ^((i)(y|e|s|yes))$ ]]
+    then
+      ssh-keygen -t rsa -C "$resp_git_e"
+    fi
+  fi
+
+  tmux source-file ~/.tmux.conf
 
 cd $(dirname $BASH_SOURCE)
 BASE=$(pwd)
