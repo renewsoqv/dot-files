@@ -111,6 +111,5 @@ export LANG=en_US.UTF-8
 
 export FZF_DEFAULT_OPTS="--extended --cycle"
 export PATH="$PATH:/path/to/elixir/bin"
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
