@@ -1,7 +1,7 @@
 ## Instalation
 1. cd ~/
 2. git clone https://github.com/renews/dot-files.git
-3. bash -x configure
+3. cd dot-files && bash configure
 
 ### References
 - https://danielmiessler.com/study/vim/
