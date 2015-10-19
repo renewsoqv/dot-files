@@ -38,7 +38,7 @@ Plug 'mattn/webapi-vim' " An Interface to WEB APIs.
 Plug 'Shougo/vimshell.vim'
 Plug 'mattn/gist-vim'
 Plug 'Raimondi/delimitMate' "This plug-in provides automatic closing of quotes, parenthesis, brackets, etc.
-
+Plug 'itchyny/calendar.vim' "Calendar on vim?!
 " Leverage the power of Vim's compiler plugins without being bound by  synchronicity. Kick off builds and test suites using one of several
 " asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless  mode), and when the job completes, errors will be loaded and parsed
 " automatically.
@@ -224,7 +224,7 @@ map <F2> :next<CR>      " map F2 to open next buffer
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
 nmap <F3> :TagbarToggle<CR>
-
+map <F12> :Calendar
 
 " special char's 
 map ,v :sp ~/.vimrc<cr> " edit my .vimrc file in a split
@@ -380,6 +380,10 @@ let g:syntastic_check_on_wq = 0
 " NERdTree - Open it automatically if no files specified.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Calendar
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
 
 " Style for NerdTree git plugin
 let g:NERDTreeIndicatorMapCustom = {
