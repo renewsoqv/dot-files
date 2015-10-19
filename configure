@@ -60,7 +60,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
 
   echo "INSTALL ELIXIR"
   brew install elixir
-  export PATH="$PATH:/path/to/elixir/bin" >> ~/.bash_profile
+  echo 'export PATH="$PATH:/path/to/elixir/bin"' >> ~/.bash_profile
  
   echo "INSTALL FZF"
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
