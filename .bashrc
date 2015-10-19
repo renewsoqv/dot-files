@@ -10,7 +10,6 @@ alias love="/Applications/love.app/Contents/MacOS/love"
 
 export PATH=${PATH}:/Users/renews/Desktop/AndroidSDK/sdk/tools
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 DULL=0
 BRIGHT=1
@@ -111,5 +110,7 @@ export EDITOR=vim
 export LANG=en_US.UTF-8
 
 export FZF_DEFAULT_OPTS="--extended --cycle"
+export PATH="$PATH:/path/to/elixir/bin"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
