@@ -220,10 +220,11 @@ endif
 " F1 ~ f12
 map <F1> :previous<CR>  " map F1 to open previous buffer
 map <F2> :next<CR>      " map F2 to open next buffer
-map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
-nmap <F4> :Helptags<CR>
+" map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
+" nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
-nmap <F8> :TagbarToggle<CR>
+nmap <F3> :TagbarToggle<CR>
+
 
 " special char's 
 map ,v :sp ~/.vimrc<cr> " edit my .vimrc file in a split
@@ -237,7 +238,7 @@ vnoremap . :norm.<CR>
 cmap W w
 cmap Q q
 cmap Wq wq
-
+vnoremap <c-r> :redo<CR>
 nnoremap <leader>s :set spell!
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,  which is the default
 map Y y$
@@ -293,6 +294,7 @@ let g:seoul256_background = 233
 colo railscasts
 
 " Leader shortcuts
+nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>a :Ack
 nnoremap <leader>ft Vatzf
@@ -301,8 +303,8 @@ nnoremap <leader>q gqip
 nnoremap <leader>A V`]y "copy file content
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Split window
-nnoremap <leader>sv <C-w>v
-nnoremap <leader>sh <C-w>s
+nnoremap <leader>v <C-w>v
+nnoremap <leader>h <C-w>s
 nnoremap <leader>w <C-w><C-w>
 
 nnoremap <leader>j VipJ
@@ -391,6 +393,53 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
+" ----------------------------------------------------------------------------
+" vimawesome.com
+" ----------------------------------------------------------------------------
+function! VimAwesomeComplete() abort
+  let prefix = matchstr(strpart(getline('.'), 0, col('.') - 1), '[.a-zA-Z0-9_/-]*$')
+  echohl WarningMsg
+  echo 'Downloading plugin list from VimAwesome'
+  echohl None
+ruby << EOF
+  require 'json'
+  require 'open-uri'
+  
+  query = VIM::evaluate('prefix').gsub('/', '%20')
+  items = 1.upto(max_pages = 3).map do |page|
+  Thread.new do
+    url  = "http://vimawesome.com/api/plugins?page=#{page}&query=#{query}"
+    data = open(url).read
+    json = JSON.parse(data, symbolize_names: true)
+    json[:plugins].map do |info|
+      pair = info.values_at :github_owner, :github_repo_name
+      next if pair.any? { |e| e.nil? || e.empty? }
+      {word: pair.join('/'),
+       menu: info[:category].to_s,
+       info: info.values_at(:short_desc, :author).compact.join($/)}
+      end.compact
+    end
+  end.each(&:join).map(&:value).inject(:+)
+  VIM::command("let cands = #{JSON.dump items}")
+EOF
+  if !empty(cands)
+    inoremap <buffer> <c-v> <c-n>
+    augroup _VimAwesomeComplete
+      autocmd!
+      autocmd CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
+              \| autocmd! _VimAwesomeComplete
+    augroup END
+    
+    call complete(col('.') - strchars(prefix), cands)
+  endif
+  return ''
+endfunction
+
+augroup VimAwesomeComplete
+  autocmd!
+  autocmd FileType vim inoremap <c-x><c-v> <c-r>=VimAwesomeComplete()<cr>
+augroup END
+
 
 " Javascript Libraries - https://github.com/othree/javascript-libraries-syntax.vim
 "let g:used_javascript_libs = 'underscore,angularjs,angularui,angularuirouter'
@@ -457,7 +506,7 @@ if has("autocmd")
          \ elseif !exists('b:dispatch') |
          \   let b:dispatch = 'ruby -wc %' |
          \ endif
-   autocmd FileType vim  setlocal keywordprg=:help |
+ autocmd FileType vim  setlocal keywordprg=:help |
          \ if exists(':Runtime') |
          \   let b:dispatch = ':Runtime' |
          \   let b:start = ':Runtime|PP' |
