@@ -226,8 +226,6 @@ endif
 " ===========
 
 " F1 ~ f12
-nnoremap <F1> :bprevious<CR>  " map F1 to open previous buffer
-nnoremap <F2> :bnext<CR>      " map F2 to open next buffer
 " map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
@@ -254,6 +252,19 @@ map <C-e> :NERDTreeToggle<CR>
 map <Left> :tabp<CR>
 map <Right> :tabn<CR>
 map <Up> :tabe
+
+" Map Arrow Key for buffer navigation - CTRL + arrow
+nnoremap <silent> <C-Right> <c-w>l
+nnoremap <silent> <C-Left> <c-w>h
+nnoremap <silent> <C-Up> <c-w>k
+nnoremap <silent> <C-Down> <c-w>j
+vnoremap <silent> <C-Right> <c-w>l
+vnoremap <silent> <C-Left> <c-w>h
+vnoremap <silent> <C-Up> <c-w>k
+vnoremap <silent> <C-Down> <c-w>j
+
+set wm=10 " This sets the minimum window height to N
+set winheight=49 " when this buffer get the focus, change the height to
 
 " Use <F11> to toggle between 'paste' and 'nopaste'
 " set pastetoggle=<F11>
@@ -305,7 +316,6 @@ colo railscasts
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>a :Ag
-nnoremap <leader>ca :%y+ " copy file content to clipboard
 nnoremap <leader>ft Vatzf
 nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 nnoremap <leader>q gqip
@@ -327,6 +337,7 @@ nnoremap <leader>d :read !date<CR>
 nnoremap <leader>r :!!<CR>
 nnoremap <leader>m :normal @a
 nnoremap <leader>l :CtrlPMixed<CR>
+nnoremap <leader>ca :%y+<CR>
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
@@ -384,6 +395,7 @@ let g:syntastic_check_on_wq = 0
 " NERdTree - Open it automatically if no files specified.
 au StdinReadPre * let s:std_in=1
 au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let g:NERDTreeWinSize = 40
 
 " Calendar
 let g:calendar_google_calendar = 1
