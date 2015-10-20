@@ -43,6 +43,7 @@ Plug 'itchyny/calendar.vim' "Calendar on vim?!
 " asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless  mode), and when the job completes, errors will be loaded and parsed
 " automatically.
  Plug 'tpope/vim-dispatch' 
+ Plug 'osyo-manga/vim-over'  "Preview commands you'r executing , like search replace
 
  " Asthetics
 Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to  depth
