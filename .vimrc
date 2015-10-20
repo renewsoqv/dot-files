@@ -8,7 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 " Essentials
 Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " NERD tree will be  loaded on the first invocation of NERDTreeToggle command
+Plug 'scrooloose/nerdtree' " NERD tree will be  loaded on the first invocation of NERDTreeToggle command
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the 'gutter' (sign column) 
 Plug 'scrooloose/syntastic' " Check for code error, amazing!
 Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
@@ -176,7 +176,7 @@ set formatoptions=qrn1
 set spell spelllang=en_us "spell check language"
 set nospell "ignore spell checking"
 set colorcolumn=250
-set textwidth=79
+" set textwidth=79
 set splitbelow
 set splitright
 
@@ -225,8 +225,6 @@ endif
 " ===========
 
 " F1 ~ f12
-nnoremap <F1> :bprevious<CR>  " map F1 to open previous buffer
-nnoremap <F2> :bnext<CR>      " map F2 to open next buffer
 " map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
@@ -253,6 +251,19 @@ map <C-e> :NERDTreeToggle<CR>
 map <Left> :tabp<CR>
 map <Right> :tabn<CR>
 map <Up> :tabe
+
+" Map Arrow Key for buffer navigation - CTRL + arrow
+nnoremap <silent> <C-Right> <c-w>l
+nnoremap <silent> <C-Left> <c-w>h
+nnoremap <silent> <C-Up> <c-w>k
+nnoremap <silent> <C-Down> <c-w>j
+vnoremap <silent> <C-Right> <c-w>l
+vnoremap <silent> <C-Left> <c-w>h
+vnoremap <silent> <C-Up> <c-w>k
+vnoremap <silent> <C-Down> <c-w>j
+
+set wm=10 " This sets the minimum window height to N
+set winheight=49 " when this buffer get the focus, change the height to
 
 " Use <F11> to toggle between 'paste' and 'nopaste'
 " set pastetoggle=<F11>
@@ -304,7 +315,6 @@ colo railscasts
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>a :Ag
-nnoremap <leader>ca :%y+ " copy file content to clipboard
 nnoremap <leader>ft Vatzf
 nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 nnoremap <leader>q gqip
@@ -326,6 +336,7 @@ nnoremap <leader>d :read !date<CR>
 nnoremap <leader>r :!!<CR>
 nnoremap <leader>m :normal @a
 nnoremap <leader>l :CtrlPMixed<CR>
+nnoremap <leader>ca :%y+<CR>
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
@@ -383,6 +394,7 @@ let g:syntastic_check_on_wq = 0
 " NERdTree - Open it automatically if no files specified.
 au StdinReadPre * let s:std_in=1
 au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let g:NERDTreeWinSize=31 
 
 " Calendar
 let g:calendar_google_calendar = 1
