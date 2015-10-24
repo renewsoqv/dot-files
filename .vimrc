@@ -313,6 +313,8 @@ let g:seoul256_background = 233
 colo railscasts
 
 " Leader shortcuts
+nnoremap <leader>, :bprevious<CR>
+nnoremap <leader>. :bnext<CR>
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>a :Ag
