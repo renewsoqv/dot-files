@@ -8,7 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 " Essentials
 Plug 'junegunn/vim-easy-align' " A simple, easy-to-use Vim alignment plugin.
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " NERD tree will be  loaded on the first invocation of NERDTreeToggle command
+Plug 'scrooloose/nerdtree' " NERD tree will be  loaded on the first invocation of NERDTreeToggle command
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the 'gutter' (sign column) 
 Plug 'scrooloose/syntastic' " Check for code error, amazing!
 Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
@@ -177,7 +177,7 @@ set formatoptions=qrn1
 set spell spelllang=en_us "spell check language"
 set nospell "ignore spell checking"
 set colorcolumn=250
-set textwidth=79
+" set textwidth=79
 set splitbelow
 set splitright
 
@@ -395,7 +395,7 @@ let g:syntastic_check_on_wq = 0
 " NERdTree - Open it automatically if no files specified.
 au StdinReadPre * let s:std_in=1
 au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let g:NERDTreeWinSize = 40
+let g:NERDTreeWinSize=31 
 
 " Calendar
 let g:calendar_google_calendar = 1
