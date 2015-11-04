@@ -25,6 +25,7 @@ Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parenthe
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
 Plug 'dkprice/vim-easygrep' "Fast and Easy Find and Replace Across Multiple Files
 Plug 'kien/ctrlp.vim' "Amazing search plugin
+Plug 'dkprice/vim-easygrep'
  
 " Utilities
 Plug 'tpope/vim-commentary' "Comment stuff out. 
@@ -42,10 +43,12 @@ Plug 'itchyny/calendar.vim' "Calendar on vim?!
 " Leverage the power of Vim's compiler plugins without being bound by  synchronicity. Kick off builds and test suites using one of several
 " asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless  mode), and when the job completes, errors will be loaded and parsed
 " automatically.
- Plug 'tpope/vim-dispatch' 
- Plug 'osyo-manga/vim-over'  "Preview commands you'r executing , like search replace
+Plug 'tpope/vim-dispatch' 
+Plug 'osyo-manga/vim-over'  "Preview commands you'r executing , like search replace
+Plug 'dhruvasagar/vim-dotoo' " Todo agenda
+Plug 'heavenshell/vim-slack'
 
- " Asthetics
+" Asthetics
 Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to  depth
 
  " Languages
@@ -68,6 +71,8 @@ Plug 'skalnik/vim-vroom' "Run your Ruby tests! Supports RSpec, Test::Unit/MiniTe
 Plug 'cmather/vim-meteor-snippets'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'bonsaiben/bootstrap-snippets'
+Plug 'rhysd/vim-crystal'
+Plug 'rust-lang/rust.vim'
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
