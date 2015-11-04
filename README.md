@@ -2,6 +2,7 @@
 1. cd ~/
 2. git clone https://github.com/renews/dot-files.git
 3. cd dot-files && bash configure
+4. Enter vim and ```:PlugInstall```
 
 ### References
 - https://danielmiessler.com/study/vim/
