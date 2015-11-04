@@ -25,7 +25,7 @@ Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parenthe
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
 Plug 'dkprice/vim-easygrep' "Fast and Easy Find and Replace Across Multiple Files
 Plug 'kien/ctrlp.vim' "Amazing search plugin
-Plug 'dkprice/vim-easygrep'
+Plug 'Yggdroot/indentLine' " Show identantion line 
  
 " Utilities
 Plug 'tpope/vim-commentary' "Comment stuff out. 
@@ -156,7 +156,7 @@ set ruler " Display the cursor position on the last line of the screen or in the
 set backspace=indent,eol,start " Allow backspacing over autoindent, line breaks and start of insert action
 set laststatus=2 " Always display the status line, even if only one window is displayed
 set number " Display line numbers on the left
-"set relativenumber
+set relativenumber
 set notimeout ttimeout ttimeoutlen=50 " Quickly time out on keycodes, but never time out on mappings
 set timeoutlen=1200 " A little bit more time for macros
 
@@ -234,13 +234,13 @@ endif
 " map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
-nnoremap <F3> :TagbarToggle<CR>
 nnoremap <F12> :Calendar
 
 " special char's 
 map ,v :sp ~/.vimrc<cr> " edit my .vimrc file in a split
 map ,e :e ~/.vimrc<cr>      " edit my .vimrc file
 map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
+map ,t :TagbarToggle<CR>
 nnoremap / /\v
 vnoremap / /\v
 vnoremap . :norm.<CR>
@@ -317,6 +317,10 @@ let g:seoul256_background = 233
 " colo molokai 
 colo railscasts
 
+let g:indentLine_color_gui = '#cccccc'
+let g:indentLine_enabled = 1
+
+
 " Leader shortcuts
 nnoremap <leader>, :bprevious<CR>
 nnoremap <leader>. :bnext<CR>
@@ -371,7 +375,7 @@ set directory=~/.vim/tmp     " Where temporary files will go.
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
-let g:ctrlp_cmd = 'CtrlPMixed'
+" let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
 " let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
 
@@ -382,7 +386,7 @@ let g:ctrlp_custom_ignore = {
 
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-x>"
+let g:UltiSnipsExpandTrigger="<c-X>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
