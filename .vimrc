@@ -14,6 +14,7 @@ Plug 'scrooloose/syntastic' " Check for code error, amazing!
 Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
 Plug 'sjl/gundo.vim' " Gundo.vim is Vim plugin to visualize your Vim undo tree.
 Plug 'tpope/vim-fugitive' " GIT
+Plug 'jreybert/vimagit' " Another git plugin
 Plug 'majutsushi/tagbar' "browse the tags of the current file and get an overview of its structure.
 Plug 'tpope/vim-sensible' " a universal set of defaults that (hopefully)  everyone can agree on.
 Plug 'ervandew/supertab' " Supertab is a vim plugin which allows you to use  <Tab> for all your insert completion needs (:help ins-completion).
@@ -25,7 +26,7 @@ Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parenthe
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
 Plug 'dkprice/vim-easygrep' "Fast and Easy Find and Replace Across Multiple Files
 Plug 'kien/ctrlp.vim' "Amazing search plugin
-Plug 'Yggdroot/indentLine' " Show identantion line 
+"Plug 'Yggdroot/indentLine' " Show identantion line 
  
 " Utilities
 Plug 'tpope/vim-commentary' "Comment stuff out. 
@@ -36,7 +37,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' } "fzf is a gen
 Plug 'junegunn/fzf.vim'
 Plug 'wakatime/vim-wakatime' "Vim plugin to quantify your coding with  automatic time tracking and metrics about your programming.
 Plug 'mattn/webapi-vim' " An Interface to WEB APIs.
-Plug 'Shougo/vimshell.vim'
 Plug 'mattn/gist-vim'
 Plug 'Raimondi/delimitMate' "This plug-in provides automatic closing of quotes, parenthesis, brackets, etc.
 Plug 'itchyny/calendar.vim' "Calendar on vim?!
@@ -47,9 +47,18 @@ Plug 'tpope/vim-dispatch'
 Plug 'osyo-manga/vim-over'  "Preview commands you'r executing , like search replace
 Plug 'dhruvasagar/vim-dotoo' " Todo agenda
 Plug 'heavenshell/vim-slack'
+Plug 'Shougo/vimproc.vim', { 'do': 'make'}
+Plug 'Shougo/vimshell.vim'
+Plug 'nounoursheureux/vim-gulp'
+Plug 'habamax/vim-skipit' " While INSERT mode on press <CTRL-L>l to skip everything until parentheses, bars or quotes and place cursor right after them.
+Plug 'justinmk/vim-sneak' "Sneak is a minimalist, versatile Vim motion plugin that jumps to any location specified by two character
+
+
 
 " Asthetics
 Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to  depth
+Plug 'nathanaelkane/vim-indent-guides' "Indent Guides is a plugin for visually displaying indent levels in Vim.
+Plug 'ryanoasis/vim-devicons'
 
  " Languages
 Plug 'kchmck/vim-coffee-script'
@@ -177,7 +186,9 @@ set showmatch  " Show matching brackets.
 set hlsearch " Highlight searches
 set wrap
 set linebreak
-set nolist
+set list
+" set nolist
+" set listchars=precedes:.
 set formatoptions=qrn1
 set spell spelllang=en_us "spell check language"
 set nospell "ignore spell checking"
@@ -317,10 +328,17 @@ let g:seoul256_background = 233
 " colo molokai 
 colo railscasts
 
-let g:indentLine_color_gui = '#cccccc'
-let g:indentLine_enabled = 1
+" Indentation styles
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
 
-
+if has('gui_running')
+  set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11 "ryanoasis/vim-devicons
+endif
+let g:airline_powerline_fonts = 1
+ 
 " Leader shortcuts
 nnoremap <leader>, :bprevious<CR>
 nnoremap <leader>. :bnext<CR>
