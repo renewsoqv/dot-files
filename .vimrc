@@ -82,7 +82,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'bonsaiben/bootstrap-snippets'
 Plug 'rhysd/vim-crystal'
 Plug 'rust-lang/rust.vim'
-Plug 'hwartig/vim-seering-is-believing'
+Plug 'hwartig/vim-seeing-is-believing'
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
