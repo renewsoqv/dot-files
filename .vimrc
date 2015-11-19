@@ -82,6 +82,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'bonsaiben/bootstrap-snippets'
 Plug 'rhysd/vim-crystal'
 Plug 'rust-lang/rust.vim'
+Plug 'hwartig/vim-seering-is-believing'
 
 " Group dependencies, vim-snippets depends on ultisnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -565,3 +566,18 @@ if has("au")
  "         \   let b:dispatch = ":unlet! g:loaded_{expand('%:t:r')}|source %" |
  "         \ endif
 endif
+
+
+augroup seeingIsBelievingSettings
+  autocmd!
+
+  autocmd FileType ruby nmap <buffer> <Enter> <Plug>(seeing-is-believing-mark-and-run)
+  autocmd FileType ruby xmap <buffer> <Enter> <Plug>(seeing-is-believing-mark-and-run)
+
+  autocmd FileType ruby nmap <buffer> <F4> <Plug>(seeing-is-believing-mark)
+  autocmd FileType ruby xmap <buffer> <F4> <Plug>(seeing-is-believing-mark)
+  autocmd FileType ruby imap <buffer> <F4> <Plug>(seeing-is-believing-mark)
+
+  autocmd FileType ruby nmap <buffer> <F5> <Plug>(seeing-is-believing-run)
+  autocmd FileType ruby imap <buffer> <F5> <Plug>(seeing-is-believing-run)
+augroup END
