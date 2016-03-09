@@ -14,7 +14,7 @@ Plug 'scrooloose/syntastic' " Check for code error, amazing!
 Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status flags
 Plug 'sjl/gundo.vim' " Gundo.vim is Vim plugin to visualize your Vim undo tree.
 Plug 'tpope/vim-fugitive' " GIT
-Plug 'jreybert/vimagit' " Another git plugin
+Plug 'jreybert/vimagit' " Another git plugin 
 Plug 'majutsushi/tagbar' "browse the tags of the current file and get an overview of its structure.
 Plug 'tpope/vim-sensible' " a universal set of defaults that (hopefully)  everyone can agree on.
 Plug 'ervandew/supertab' " Supertab is a vim plugin which allows you to use  <Tab> for all your insert completion needs (:help ins-completion).
@@ -25,11 +25,13 @@ Plug 'tpope/vim-projectionist' " Projectionist provides granular project configu
 Plug 'tpope/vim-surround'  "  Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more.
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer'} "YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim. 
 Plug 'dkprice/vim-easygrep' "Fast and Easy Find and Replace Across Multiple Files
-Plug 'kien/ctrlp.vim' "Amazing search plugin
-"Plug 'Yggdroot/indentLine' " Show identantion line 
- 
+Plug 'ctrlpvim/ctrlp.vim' "Amazing search plugin
+" Plug 'Yggdroot/indentLine' " display the indention levels with thin vertical lines
+
 " Utilities
 Plug 'tpope/vim-commentary' "Comment stuff out. 
+Plug 'samsonw/vim-task' " Task manager
+Plug 'rizzatti/dash.vim' "If you're a Mac user, you might know Dash.app, a really well made documentation App. You can use this plugin to search in Dash via :Dash <keyword>, or just type :Dash to search for the word under your cursor.
 Plug 'junegunn/vim-xmark', { 'do': 'make' } " Markdown preview on OS X
 Plug 'junegunn/tmux-complete.vim' " Vim plugin for insert mode completion of words in adjacent tmux panes
 Plug 'junegunn/vim-github-dashboard', { 'on': ['GHDashboard', 'GHActivity'] } "Browse GitHub events (user dashboard, user/repo activity) in Vim.
@@ -43,24 +45,20 @@ Plug 'itchyny/calendar.vim' "Calendar on vim?!
 " Leverage the power of Vim's compiler plugins without being bound by  synchronicity. Kick off builds and test suites using one of several
 " asynchronous adapters (including tmux, screen, iTerm, Windows, and a headless  mode), and when the job completes, errors will be loaded and parsed
 " automatically.
-Plug 'tpope/vim-dispatch' 
-Plug 'osyo-manga/vim-over'  "Preview commands you'r executing , like search replace
-Plug 'dhruvasagar/vim-dotoo' " Todo agenda
-Plug 'heavenshell/vim-slack'
+Plug 'tpope/vim-dispatch'
 Plug 'Shougo/vimproc.vim', { 'do': 'make'}
 Plug 'Shougo/vimshell.vim'
 Plug 'nounoursheureux/vim-gulp'
 Plug 'habamax/vim-skipit' " While INSERT mode on press <CTRL-L>l to skip everything until parentheses, bars or quotes and place cursor right after them.
 Plug 'justinmk/vim-sneak' "Sneak is a minimalist, versatile Vim motion plugin that jumps to any location specified by two character
 
-
-
-" Asthetics
+ " Asthetics
 Plug 'junegunn/rainbow_parentheses.vim' " color parentheses according to  depth
 Plug 'nathanaelkane/vim-indent-guides' "Indent Guides is a plugin for visually displaying indent levels in Vim.
 Plug 'ryanoasis/vim-devicons'
 
  " Languages
+Plug 'othree/html5.vim' "HTML5 + inline SVG omnicomplete function, indent and syntax for Vim
 Plug 'kchmck/vim-coffee-script'
 Plug 'junegunn/vim-journal' " syntax plugin for plain text files.
 Plug 'kurko/smartest.vim' "Make your Vim smart when running your tests.
@@ -80,8 +78,9 @@ Plug 'skalnik/vim-vroom' "Run your Ruby tests! Supports RSpec, Test::Unit/MiniTe
 Plug 'cmather/vim-meteor-snippets'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'bonsaiben/bootstrap-snippets'
-Plug 'rhysd/vim-crystal'
 Plug 'rust-lang/rust.vim'
+Plug 'rhysd/vim-crystal'
+Plug 'pearofducks/ansible-vim' "This is a vim syntax plugin for Ansible 2.0, it supports YAML playbooks, Jinja2 templates, and Ansible's hosts files.
 Plug 'hwartig/vim-seeing-is-believing'
 
 " Group dependencies, vim-snippets depends on ultisnips
@@ -130,7 +129,7 @@ set expandtab " tabs are converted to spaces, use only when required
 " basic config
 set history=1000  " Number of things to remember in history
 set shell=/bin/zsh
-set guifont=Menlo:h14
+set guifont=Menlo:h18
 set encoding=utf-8
 set scrolloff=3
 set undofile
@@ -193,8 +192,8 @@ set list
 set formatoptions=qrn1
 set spell spelllang=en_us "spell check language"
 set nospell "ignore spell checking"
-set colorcolumn=250
-" set textwidth=79
+set colorcolumn=+1
+set textwidth=89
 set splitbelow
 set splitright
 
@@ -210,10 +209,10 @@ endif
 " =========
 
 " Add clock to Airline StatusBar
-function! AirlineInit()
-  let g:airline_section_z = airline#section#create(['ffenc', ' %{strftime("%d/%m - %H:%M")}'])
-endfunction
-  
+" function! AirlineInit()
+"   let g:airline_section_z = airline#section#create(['ffenc', ' %{strftime("%d/%m - %H:%M")}'])
+" endfunction
+
 if has('eval')
   function! OpenURL(url)
     if has("win32")
@@ -227,9 +226,9 @@ if has('eval')
     endif
     redraw!
   endfunction
-  
-  command! -nargs=1 OpenURL :call OpenURL(<q-args>)
-  
+
+ command! -nargs=1 OpenURL :call OpenURL(<q-args>)
+
   " open URL under cursor in browser
   nnoremap gb :OpenURL <cfile><CR>
   nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
@@ -246,12 +245,13 @@ endif
 " map <F3> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR> "search word under cursor
 " nmap <F4> :Helptags<CR>
 nnoremap <F5> :GundoToggle<CR>
-nnoremap <F12> :Calendar
+nnoremap <F12> :Calendar<CR>
 
 " special char's 
 map ,v :sp ~/.vimrc<cr> " edit my .vimrc file in a split
 map ,e :e ~/.vimrc<cr>      " edit my .vimrc file
 map ,u :source ~/.vimrc<cr> " update the system settings from my vimrc file
+
 map ,t :TagbarToggle<CR>
 nnoremap / /\v
 vnoremap / /\v
@@ -279,6 +279,50 @@ vnoremap <silent> <C-Right> <c-w>l
 vnoremap <silent> <C-Left> <c-w>h
 vnoremap <silent> <C-Up> <c-w>k
 vnoremap <silent> <C-Down> <c-w>j
+
+" leader shortcuts
+nnoremap <leader>, :bprevious<cr>
+nnoremap <leader>. :bnext<cr>
+nnoremap <leader>u :gundotoggle<cr>
+nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
+nnoremap <leader>a :ag
+nnoremap <leader>ft vatzf
+nnoremap <leader>s ?{<cr>jv/^\s*\}?$<cr>k:sort<cr>:noh<cr>
+nnoremap <leader>q gqip
+nnoremap <leader>a v`]y 
+nnoremap <leader>ev <c-w><c-v><c-l>:e $myvimrc<cr>
+
+" split window
+nnoremap <leader>d <c-w>v
+nnoremap <leader>d <c-w>s
+nnoremap <leader>w <c-w><c-w>
+
+nnoremap <leader>j vipj
+nnoremap <leader>q gqip
+nnoremap <leader>f 1z=
+nnoremap <leader>s ]s
+"nnoremap <leader>u :!git pull website master && git commit -am 'standard commit.' && git push website master<cr><cr>
+"nnoremap <leader>p :!git commit -am 'standard commit.' && git push origin "master<cr><cr>
+nnoremap <leader>p :!git commit -am 'updatefile.' && git push origin_hub master<cr><cr>
+nnoremap <leader>d :read !date<cr>
+nnoremap <leader>r :!!<cr>
+nnoremap <leader>m :normal @a
+nnoremap <leader>l :ctrlpmixed<cr>
+nnoremap <leader>ca :%y+<cr>
+
+" <ctrl-l> redraws the screen and removes any search highlighting.
+nnoremap <silent> <c-l> :nohl<cr><c-l>
+
+nnoremap <leader>e :explore<cr><cr>
+nnoremap <leader>nt :NERDTree<CR>
+nnoremap <leader>n :set nonumber!<CR>
+nnoremap <leader>rn :set norelativenumber!<CR>
+nnoremap <leader>pa :set nopaste!<CR>
+nnoremap <leader>rc :so $MYVIMRC<CR>
+"nnoremap <leader>b :BlogSave publish<CR>
+"nnoremap <leader>r :! /Users/daniel/Documents/whup.sh<CR><CR>
+nnoremap <leader>h :set ft=HTML<CR><CR>
+" Map :w
 
 set wm=10 " This sets the minimum window height to N
 set winheight=49 " when this buffer get the focus, change the height to
@@ -315,19 +359,22 @@ imap <Esc>Oz 0
 " ==========
 " Aesthetics
 " ==========
-
-"colorscheme railscasts
-"colorscheme solarized 
 set background=dark
 
+" let g:indentLine_color_gui = '#A4E57E'
+" let g:indentLine_char = '┊'
+" let g:indentLine_enabled = 1
+" let g:indentLine_leadingSpaceEnabled = 1
+" let g:indentLine_leadingSpaceChar = '.'
 """""" seoul256 (dark):
-" Range:   233 (darkest) ~ 239 (lightest)
-"  Default: 237
+"Range:   233 (darkest) ~ 239 (lightest)
+"Default: 237
 let g:seoul256_background = 233
 " colo seoul256
 " colo solarized
 " colo molokai 
 colo railscasts
+
 
 " Indentation styles
 let g:indent_guides_auto_colors = 0
@@ -336,51 +383,11 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
 
 if has('gui_running')
-  set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types:h11 "ryanoasis/vim-devicons
+  set guifont=droid\ sans\ mono\ for\ powerline\ plus\ nerd\ file\ types:h11 "ryanoasis/vim-devicons
 endif
+
 let g:airline_powerline_fonts = 1
- 
-" Leader shortcuts
-nnoremap <leader>, :bprevious<CR>
-nnoremap <leader>. :bnext<CR>
-nnoremap <leader>u :GundoToggle<CR>
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>a :Ag
-nnoremap <leader>ft Vatzf
-nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
-nnoremap <leader>q gqip
-nnoremap <leader>A V`]y "copy file content
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
-" Split window
-nnoremap <leader>d <C-w>v
-nnoremap <leader>D <C-w>s
-nnoremap <leader>w <C-w><C-w>
 
-nnoremap <leader>j VipJ
-nnoremap <leader>q gqip
-nnoremap <leader>f 1z=
-nnoremap <leader>s ]s
-"nnoremap <leader>u :!git pull website master && git commit -am 'Standard commit.' && git push website master<CR><CR>
-"nnoremap <leader>p :!git commit -am 'Standard commit.' && git push origin "master<CR><CR>
-nnoremap <leader>p :!git commit -am 'Updatefile.' && git push origin_hub master<CR><CR>
-nnoremap <leader>d :read !date<CR>
-nnoremap <leader>r :!!<CR>
-nnoremap <leader>m :normal @a
-nnoremap <leader>l :CtrlPMixed<CR>
-nnoremap <leader>ca :%y+<CR>
-
-" <Ctrl-l> redraws the screen and removes any search highlighting.
-nnoremap <silent> <C-l> :nohl<CR><C-l>
-
-nnoremap <leader>e :Explore<CR>
-nnoremap <leader>nt :NERDTree<CR>
-nnoremap <leader>n :set nonumber!<CR>
-nnoremap <leader>rn :set norelativenumber!<CR>
-nnoremap <leader>pa :set nopaste!<CR>
-nnoremap <leader>rc :so $MYVIMRC<CR>
-"nnoremap <leader>b :BlogSave publish<CR>
-"nnoremap <leader>r :! /Users/daniel/Documents/whup.sh<CR><CR>
-nnoremap <leader>h :set ft=HTML<CR><CR>
 
 """""""" Backups & Files
 set backup                     " Enable creation of backup file.
@@ -391,8 +398,8 @@ set directory=~/.vim/tmp     " Where temporary files will go.
 "CTRl-P search plugin
 
 "Exclude files and directories using Vim's wildignore and CtrlP's own
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.un~     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe,*.un~      " Windows
 
 " let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
@@ -444,47 +451,47 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-" ----------------------------------------------------------------------------
-" vimawesome.com
-" ----------------------------------------------------------------------------
-function! VimAwesomeComplete() abort
-  let prefix = matchstr(strpart(getline('.'), 0, col('.') - 1), '[.a-zA-Z0-9_/-]*$')
-  echohl WarningMsg
-  echo 'Downloading plugin list from VimAwesome'
-  echohl None
-ruby << EOF
-  require 'json'
-  require 'open-uri'
+" " ----------------------------------------------------------------------------
+" " vimawesome.com
+" " ----------------------------------------------------------------------------
+" function! VimAwesomeComplete() abort
+"   let prefix = matchstr(strpart(getline('.'), 0, col('.') - 1), '[.a-zA-Z0-9_/-]*$')
+"   echohl WarningMsg
+"   echo 'Downloading plugin list from VimAwesome'
+"   echohl None
+" ruby << EOF
+"   require 'json'
+"   require 'open-uri'
   
-  query = VIM::evaluate('prefix').gsub('/', '%20')
-  items = 1.upto(max_pages = 3).map do |page|
-  Thread.new do
-    url  = "http://vimawesome.com/api/plugins?page=#{page}&query=#{query}"
-    data = open(url).read
-    json = JSON.parse(data, symbolize_names: true)
-    json[:plugins].map do |info|
-      pair = info.values_at :github_owner, :github_repo_name
-      next if pair.any? { |e| e.nil? || e.empty? }
-      {word: pair.join('/'),
-       menu: info[:category].to_s,
-       info: info.values_at(:short_desc, :author).compact.join($/)}
-      end.compact
-    end
-  end.each(&:join).map(&:value).inject(:+)
-  VIM::command("let cands = #{JSON.dump items}")
-EOF
-  if !empty(cands)
-    inoremap <buffer> <c-v> <c-n>
-    augroup _VimAwesomeComplete
-      au!
-      au CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
-              \| au! _VimAwesomeComplete
-    augroup END
+"   query = VIM::evaluate('prefix').gsub('/', '%20')
+"   items = 1.upto(max_pages = 3).map do |page|
+"   Thread.new do
+"     url  = "http://vimawesome.com/api/plugins?page=#{page}&query=#{query}"
+"     data = open(url).read
+"     json = JSON.parse(data, symbolize_names: true)
+"     json[:plugins].map do |info|
+"       pair = info.values_at :github_owner, :github_repo_name
+"       next if pair.any? { |e| e.nil? || e.empty? }
+"       {word: pair.join('/'),
+"        menu: info[:category].to_s,
+"        info: info.values_at(:short_desc, :author).compact.join($/)}
+"       end.compact
+"     end
+"   end.each(&:join).map(&:value).inject(:+)
+"   VIM::command("let cands = #{JSON.dump items}")
+" EOF
+"   if !empty(cands)
+"     inoremap <buffer> <c-v> <c-n>
+"     augroup _VimAwesomeComplete
+"       au!
+"       au CursorMovedI,InsertLeave * iunmap <buffer> <c-v>
+"               \| au! _VimAwesomeComplete
+"     augroup END
     
-    call complete(col('.') - strchars(prefix), cands)
-  endif
-  return ''
-endfunction
+"     call complete(col('.') - strchars(prefix), cands)
+"   endif
+"   return ''
+" endfunction
 
 augroup VimAwesomeComplete
   au!
@@ -493,15 +500,7 @@ augroup END
 
 
 " Javascript Libraries - https://github.com/othree/javascript-libraries-syntax.vim
-"let g:used_javascript_libs = 'underscore,angularjs,angularui,angularuirouter'
-au BufReadPre *.js let b:javascript_lib_use_jquery = 1
-au BufReadPre *.js let b:javascript_lib_use_underscore = 1
-au BufReadPre *.js let b:javascript_lib_use_backbone = 0
-au BufReadPre *.js let b:javascript_lib_use_prelude = 0
-au BufReadPre *.js let b:javascript_lib_use_angularjs = 1
-au BufReadPre *.js let b:javascript_lib_use_angularui = 1
-au BufReadPre *.js let b:javascript_lib_use_angularuirouter = 1
-au BufReadPre *.js let b:javascript_lib_use_react = 1
+let g:used_javascript_libs = 'underscore,angularjs,angularui,angularuirouter,jquery,react'
 
 " https://github.com/pangloss/vim-javascript - JavaScript bundle for vim, this
 " bundle provides syntax and indent plugins.
@@ -567,12 +566,11 @@ if has("au")
  "         \ endif
 endif
 
-
 augroup seeingIsBelievingSettings
   autocmd!
 
-  autocmd FileType ruby nmap <buffer> <Enter> <Plug>(seeing-is-believing-mark-and-run)
-  autocmd FileType ruby xmap <buffer> <Enter> <Plug>(seeing-is-believing-mark-and-run)
+  " autocmd FileType ruby nmap <buffer> <Enter> <Plug>(seeing-is-believing-mark-and-run)
+  " autocmd FileType ruby xmap <buffer> <Enter> <Plug>(seeing-is-believing-mark-and-run)
 
   autocmd FileType ruby nmap <buffer> <F4> <Plug>(seeing-is-believing-mark)
   autocmd FileType ruby xmap <buffer> <F4> <Plug>(seeing-is-believing-mark)
@@ -581,3 +579,8 @@ augroup seeingIsBelievingSettings
   autocmd FileType ruby nmap <buffer> <F5> <Plug>(seeing-is-believing-run)
   autocmd FileType ruby imap <buffer> <F5> <Plug>(seeing-is-believing-run)
 augroup END
+
+" fix spelling
+iab widht width
+iab heigth heigth
+iab avassalador dig dim dig dim 
