@@ -168,3 +168,4 @@ source ~/.bash_profile
 source ~/.zshrc
 rm -f ~/configure
 rm -rf ~/dot-files
+rm -rf ~/.git
